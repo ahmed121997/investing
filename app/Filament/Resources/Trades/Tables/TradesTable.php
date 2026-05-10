@@ -41,7 +41,7 @@ class TradesTable
                 TextColumn::make('profit_loss')
                     ->label('Profit/Loss')
                     ->numeric(decimalPlaces: 2)
-                    ->color(fn (string $state): string => match (true) {
+                    ->color(fn (mixed $state): string => match (true) {
                         $state > 0 => 'success',
                         $state < 0 => 'danger',
                         default => 'primary',
