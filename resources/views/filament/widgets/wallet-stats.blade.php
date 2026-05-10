@@ -9,8 +9,8 @@
                     style="display: flex; min-height: 6rem; height: 100%; flex-direction: column; align-items: center; justify-content: center; text-align: center;"
                 >
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Open Stocks</div>
-                    <div class="mt-2 max-w-full text-2xl font-bold text-gray-950 dark:text-white sm:text-3xl" style="margin-top: 0.5rem; font-weight: 700;">
-                        {{ $this->formatMoney($this->openStocksTotal()) }}
+                    <div class="mt-2 max-w-full text-3xl font-bolder text-gray-950 dark:text-white sm:text-3xl" style="margin-top: 0.5rem; font-weight: 700;">
+                        ${{ $this->formatMoney($this->openStocksTotal()) }}
                     </div>
                 </div>
             </x-filament::section>
@@ -64,8 +64,8 @@
                 style="display: flex; min-height: 6rem; height: 100%; flex-direction: column; align-items: center; justify-content: center; text-align: center;"
             >
                 <div class="text-sm font-medium text-primary-700 dark:text-primary-300">Wallet Total</div>
-                <div class="mt-2 max-w-full text-2xl font-bold text-primary-950 dark:text-primary-100 sm:text-3xl" style="margin-top: 0.5rem; font-weight: 700;">
-                    {{ $this->formatMoney($this->walletTotal()) }}
+                <div class="mt-2 max-w-full text-3xl font-bolder text-primary-950 dark:text-primary-100 sm:text-3xl" style="margin-top: 0.5rem; font-weight: 700;">
+                    ${{ $this->formatMoney($this->walletTotal()) }}
                 </div>
             </div>
         </x-filament::section>
