@@ -31,6 +31,10 @@ class StocksTable
                     ->label('Price')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
+                TextColumn::make('updated_at')
+                    ->label('Last Updated')
+                    ->dateTime('M d, Y h:i a')
+                    ->sortable(),
             ])
             ->filters([
                 //
