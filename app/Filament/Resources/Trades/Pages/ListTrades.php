@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Trades\Pages;
 
+use App\Filament\Resources\Trades\Actions\Concerns\HandlesStockPriceUpdate;
+use App\Filament\Resources\Trades\Actions\RunStockPriceUpdateAction;
+use App\Filament\Resources\Trades\Actions\StockPriceUpdateDetailsAction;
 use App\Filament\Resources\Trades\TradeResource;
 use App\Models\Stock;
 use Filament\Actions\Action;
@@ -13,12 +16,16 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListTrades extends ListRecords
 {
+    use HandlesStockPriceUpdate;
+
     protected static string $resource = TradeResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             CreateAction::make(),
+            RunStockPriceUpdateAction::make(),
+            StockPriceUpdateDetailsAction::make(),
             Action::make('updateStockPrice')
                 ->label('Update Stock Price')
                 ->icon('heroicon-o-currency-dollar')

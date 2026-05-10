@@ -31,7 +31,10 @@ class TradeStats extends BaseWidget
             })
             ->selectRaw("SUM(CASE WHEN {$profitLossExpression} > 0 THEN 1 ELSE 0 END) as winning_trades")
             ->selectRaw("SUM(CASE WHEN {$profitLossExpression} < 0 THEN 1 ELSE 0 END) as losing_trades")
+            ->selectRaw("SUM({$profitLossExpression}) as total_profit_loss")
             ->first();
+
+        $totalProfitLoss = (float) ($profitLossCounts->total_profit_loss ?? 0);
 
         return [
             Stat::make('Total Trades', $totalTrades)
@@ -54,6 +57,11 @@ class TradeStats extends BaseWidget
                 ->description('Trades with loss')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
+            Stat::make('Total Profit/Loss', number_format($totalProfitLoss, 2))
+                ->description($totalProfitLoss >= 0 ? 'Total portfolio profit' : 'Total portfolio loss')
+                ->descriptionIcon($totalProfitLoss >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
+                ->color($totalProfitLoss >= 0 ? 'success' : 'danger'),
+        
         ];
     }
 }

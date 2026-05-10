@@ -23,10 +23,10 @@ class TradesTable
         return $table
             ->columns([
                 TextColumn::make('stock.name')
-                    ->formatStateUsing(fn ($state, $record) => Str::limit($record->stock->name, 20, '...') . ' (' . $record->stock->code . ')')
+                    ->formatStateUsing(fn ($state, $record) => Str::limit($state, 20, '...') . ' (' . $record->stock->code . ')')
                     ->label('Stock')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(['name', 'code']),
                 TextColumn::make('amount')
                     ->label('Amount')
                     ->numeric(decimalPlaces: 0)
@@ -63,6 +63,7 @@ class TradesTable
             ->filters([
                 SelectFilter::make('status')
                     ->native(false)
+                    ->default('open')
                     ->options([
                         'open' => 'Open',
                         'close' => 'Close',
