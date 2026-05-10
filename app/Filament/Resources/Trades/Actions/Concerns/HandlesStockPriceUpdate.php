@@ -6,6 +6,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Throwable;
 
 trait HandlesStockPriceUpdate
@@ -182,7 +183,7 @@ trait HandlesStockPriceUpdate
         $arguments = $this->formatStockPriceUpdateCommandArguments($parameters);
         $script = sprintf(
             '%s %s stocks:update-prices %s >> %s 2>&1; code=$?; if [ ! -f %s ]; then printf %%s "$code" > %s; fi',
-            escapeshellarg(PHP_BINARY),
+            escapeshellarg($this->phpCliBinary()),
             escapeshellarg(base_path('artisan')),
             implode(' ', $arguments),
             escapeshellarg($logPath),
@@ -203,6 +204,23 @@ trait HandlesStockPriceUpdate
         }
 
         return $pid;
+    }
+
+    private function phpCliBinary(): string
+    {
+        $binary = (new PhpExecutableFinder())->find();
+
+        if (filled($binary) && ! str_contains(basename($binary), 'php-fpm')) {
+            return $binary;
+        }
+
+        $bindirBinary = PHP_BINDIR . DIRECTORY_SEPARATOR . 'php';
+
+        if (is_executable($bindirBinary)) {
+            return $bindirBinary;
+        }
+
+        return 'php';
     }
 
     private function terminateStockPriceUpdateProcess(int $pid): void

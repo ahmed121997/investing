@@ -11,6 +11,7 @@ use App\Filament\Pages\Dashboard as CustomDashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use App\Filament\Widgets\DepositWithdrawalStats;
@@ -32,6 +33,10 @@ class AdminPanelProvider extends PanelProvider
             ->profile()
             ->login()
             ->favicon(asset('favicon.svg'))
+            ->renderHook(
+                PanelsRenderHook::STYLES_AFTER,
+                fn (): string => '<link rel="stylesheet" href="' . asset('css/filament/admin/theme.css') . '">',
+            )
             ->colors([
                 'primary' => Color::Amber,
             ])

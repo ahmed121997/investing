@@ -1,0 +1,40 @@
+.wallet-stats-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    width: 100%;
+}
+
+.wallet-stats-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.wallet-stats-submit {
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .wallet-stats-field {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .wallet-stats-submit {
+        width: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .wallet-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1280px) {
+    .wallet-stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

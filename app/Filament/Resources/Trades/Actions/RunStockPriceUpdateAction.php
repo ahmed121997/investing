@@ -14,7 +14,7 @@ class RunStockPriceUpdateAction
     public static function make(): Action
     {
         return Action::make('runStockPriceUpdate')
-            ->label('Run Price Update')
+            ->label('Run Command')
             ->icon('heroicon-o-arrow-path')
             ->color('info')
             ->modalHeading('Run stock price update')
@@ -53,6 +53,10 @@ class RunStockPriceUpdateAction
                     ->label('Dry run')
                     ->helperText('Fetch and show prices without saving them.'),
             ])
-            ->action(fn (array $data, ListTrades $livewire): mixed => $livewire->startStockPriceUpdate($data));
+            ->action(
+                function (array $data, ListTrades $livewire): void {
+                    $livewire->startStockPriceUpdate($data);
+                },
+            );
     }
 }
