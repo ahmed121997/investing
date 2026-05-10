@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Filament\Tables\Table;
 
@@ -66,6 +67,34 @@ class TradesTable
                         'open' => 'Open',
                         'close' => 'Close',
                     ]),
+                SelectFilter::make('profit_loss_status')
+                    ->label('Result')
+                    ->native(false)
+                    ->options([
+                        'win' => 'Win',
+                        'loss' => 'Loss',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        $value = $data['value'] ?? null;
+
+                        if (! in_array($value, ['win', 'loss'], true)) {
+                            return $query;
+                        }
+
+                        $profitLossExpression = '(
+                            trades.amount * (
+                                SELECT stocks.price
+                                FROM stocks
+                                WHERE stocks.id = trades.stock_id
+                            )
+                        ) + COALESCE((
+                            SELECT SUM(trade_tracks.amount)
+                            FROM trade_tracks
+                            WHERE trade_tracks.trade_id = trades.id
+                        ), 0)';
+
+                        return $query->whereRaw($profitLossExpression . ($value === 'win' ? ' > 0' : ' < 0'));
+                    }),
             ])
             ->recordActions([
                 Action::make('addTradeTrack')
