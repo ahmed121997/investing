@@ -29,8 +29,9 @@ class StocksTable
                     ->sortable(),
                 TextColumn::make('price')
                     ->label('Price')
-                    ->numeric(decimalPlaces: 2)
-                    ->sortable(),
+                    ->formatStateUsing(function ($state) {
+                        return $state >= 1 ? number_format($state, 2) : number_format($state, 3);
+                    })->sortable(),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->dateTime('M d, Y h:i a')

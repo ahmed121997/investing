@@ -71,6 +71,9 @@ class TradeResource extends Resource
                         TextEntry::make('created_at')
                             ->label('Created')
                             ->dateTime(),
+                        TextEntry::make('updated_at')
+                            ->label('Updated')
+                            ->dateTime(),
                     ]),
             ]);
     }

@@ -22,7 +22,7 @@ class StockForm
                     ->unique(ignoreRecord: true),
                 TextInput::make('market')
                     ->label('Market')
-                    ->default('EGx')
+                    ->default('EGX')
                     ->required()
                     ->maxLength(255),
                 TextInput::make('price')
