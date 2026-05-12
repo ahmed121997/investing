@@ -22,4 +22,9 @@ class Stock extends Model
     {
         return $this->hasMany(Trade::class);
     }
+
+    public function getPriceAttribute(int|float|string|null $value): string
+    {
+        return $value >= 1 ? number_format($value, 2) : number_format($value, 3);
+    }
 }

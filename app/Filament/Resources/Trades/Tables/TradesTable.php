@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Filament\Tables\Table;
 
@@ -32,8 +33,13 @@ class TradesTable
                     ->numeric(decimalPlaces: 0)
                     ->sortable(),
                 TextColumn::make('current_total')
+                    ->formatStateUsing(fn ($state, $record): HtmlString => new HtmlString(
+                        e(number_format((float) $state, 2))
+                        . ' (<span style="color: #10b981;">'
+                        . e($record->stock?->price)
+                        . '</span>)',
+                    ))->html()
                     ->label('Current Total')
-                    ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('total_trades_amount')
                     ->label('Total Trades Amount')
