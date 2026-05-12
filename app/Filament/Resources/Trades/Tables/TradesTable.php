@@ -39,8 +39,7 @@ class TradesTable
                         . e($record->stock?->price)
                         . '</span>)',
                     ))->html()
-                    ->label('Current Total')
-                    ->sortable(),
+                    ->label('Current Total'),
                 TextColumn::make('total_trades_amount')
                     ->label('Total Trades Amount')
                     ->numeric(decimalPlaces: 2),
