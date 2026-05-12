@@ -8,13 +8,14 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Support\Facades\File;
 
 class RunStockPriceUpdateAction
 {
     public static function make(): Action
     {
         return Action::make('runStockPriceUpdate')
-            ->label('Run Command')
+            ->label(fn (): string => self::labelWithLastRunDateTime())
             ->icon('heroicon-o-arrow-path')
             ->color('info')
             ->modalHeading('Run stock price update')
@@ -58,5 +59,39 @@ class RunStockPriceUpdateAction
                     $livewire->startStockPriceUpdate($data);
                 },
             );
+    }
+
+    private static function labelWithLastRunDateTime(): string
+    {
+        $lastRunDateTime = self::lastRunDateTime();
+
+        if ($lastRunDateTime === null) {
+            return 'Run Command';
+        }
+
+        return "Run Command ({$lastRunDateTime})";
+    }
+
+    private static function lastRunDateTime(): ?string
+    {
+        $directory = storage_path('app/stock-price-updates');
+        $lastRunPath = "{$directory}/last-run-at.txt";
+
+        if (! File::isDirectory($directory)) {
+            return null;
+        }
+
+        if (File::exists($lastRunPath)) {
+            return trim(File::get($lastRunPath)) ?: null;
+        }
+
+        $files = File::glob("{$directory}/*.{log,status}", GLOB_BRACE);
+
+        if (empty($files)) {
+            return null;
+        }
+
+        $lastModified = max(array_map(fn (string $path): int => File::lastModified($path), $files));
+        return now()->setTimestamp($lastModified)->format('d-m-Y h:i:s a');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Stock;
 use App\Services\StockPriceService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Throwable;
 
 class UpdateStockPrices extends Command
@@ -20,6 +21,8 @@ class UpdateStockPrices extends Command
 
     public function handle(StockPriceService $stockPriceService): int
     {
+        $this->recordLastRunDateTime();
+
         $provider = strtolower((string) $this->option('provider'));
 
         if (! in_array($provider, $stockPriceService->providers(), true)) {
@@ -108,5 +111,13 @@ class UpdateStockPrices extends Command
         if ($milliseconds > 0) {
             usleep($milliseconds * 1000);
         }
+    }
+
+    private function recordLastRunDateTime(): void
+    {
+        $directory = storage_path('app/stock-price-updates');
+
+        File::ensureDirectoryExists($directory);
+        File::put("{$directory}/last-run-at.txt", now()->format('d-m-Y h:i:s a'));
     }
 }

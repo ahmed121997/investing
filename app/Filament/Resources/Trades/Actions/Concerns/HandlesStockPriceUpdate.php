@@ -53,6 +53,7 @@ trait HandlesStockPriceUpdate
             );
 
             File::put($pidPath, (string) $pid);
+            $this->deleteOldStockPriceUpdateFiles($directory, $runId);
 
             $this->stockPriceUpdateResult = [
                 'command' => $command,
@@ -168,6 +169,41 @@ trait HandlesStockPriceUpdate
         if ($logPath && File::exists($logPath)) {
             $this->stockPriceUpdateResult['output'] = File::get($logPath);
         }
+    }
+
+    private function deleteOldStockPriceUpdateFiles(string $directory, string $currentRunId): void
+    {
+        $extensions = ['log', 'pid', 'status', 'stop'];
+        $filesByRunId = [];
+
+        foreach (File::files($directory) as $file) {
+            if (! in_array($file->getExtension(), $extensions, true)) {
+                continue;
+            }
+
+            $filesByRunId[$file->getBasename('.'.$file->getExtension())][] = $file->getPathname();
+        }
+
+        foreach ($filesByRunId as $runId => $paths) {
+            if ($runId === $currentRunId || $this->stockPriceUpdateRunIsActive($paths)) {
+                continue;
+            }
+
+            File::delete($paths);
+        }
+    }
+
+    private function stockPriceUpdateRunIsActive(array $paths): bool
+    {
+        $pidPath = collect($paths)->first(fn (string $path): bool => str_ends_with($path, '.pid'));
+
+        if ($pidPath === null || collect($paths)->contains(fn (string $path): bool => str_ends_with($path, '.status'))) {
+            return false;
+        }
+
+        $pid = (int) trim(File::get($pidPath));
+
+        return $pid > 0 && function_exists('posix_kill') && posix_kill($pid, 0);
     }
 
     private function runStockPriceUpdateCommandInBackground(
