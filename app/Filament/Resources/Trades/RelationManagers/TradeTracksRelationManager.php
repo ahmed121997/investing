@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -37,6 +38,14 @@ class TradeTracksRelationManager extends RelationManager
                     ->default(now())
                     ->native(false)
                     ->required(),
+                Select::make('type')
+                    ->label('Type')
+                    ->native(false)
+                    ->options([
+                        'buy' => 'Buy',
+                        'sell' => 'Sell',
+                        'profit' => 'Profit',
+                    ]),
             ]);
     }
 
@@ -54,6 +63,9 @@ class TradeTracksRelationManager extends RelationManager
                 TextColumn::make('date')
                     ->label('Date')
                     ->dateTime()
+                    ->sortable(),
+                TextColumn::make('type')
+                    ->label('Type')
                     ->sortable(),
             ])
             ->headerActions([

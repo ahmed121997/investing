@@ -12,11 +12,14 @@ class TradeTrack extends Model
         'trade_id',
         'amount',
         'date',
+        'type',
     ];
+
 
     protected $casts = [
         'amount' => 'double',
         'date' => 'datetime',
+        'type' => 'string:in:buy,sell,profit',
     ];
 
     public function trade(): BelongsTo

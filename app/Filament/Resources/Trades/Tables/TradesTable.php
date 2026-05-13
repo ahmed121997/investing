@@ -8,6 +8,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
@@ -117,6 +118,14 @@ class TradesTable
                             ->label('Date')
                             ->default(now())
                             ->required(),
+                        Select::make('type')
+                            ->label('Type')
+                            ->native(false)
+                            ->options([
+                                'buy' => 'Buy',
+                                'sell' => 'Sell',
+                                'profit' => 'Profit',
+                            ]),
                     ])
                     ->action(function ($record, array $data) {
                         $record->tradeTracks()->create($data);

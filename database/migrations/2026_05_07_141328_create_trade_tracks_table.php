@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('trade_id')->constrained()->onDelete('cascade');
             $table->double('amount');
             $table->dateTime('date');
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
