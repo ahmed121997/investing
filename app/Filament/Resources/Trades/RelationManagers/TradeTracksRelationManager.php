@@ -62,7 +62,7 @@ class TradeTracksRelationManager extends RelationManager
                     ->sortable(),
                 TextColumn::make('date')
                     ->label('Date')
-                    ->dateTime()
+                    ->dateTime('M d, Y h:i a')
                     ->sortable(),
                 TextColumn::make('type')
                     ->label('Type')

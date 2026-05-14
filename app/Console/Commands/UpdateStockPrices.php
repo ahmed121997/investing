@@ -116,8 +116,9 @@ class UpdateStockPrices extends Command
     private function recordLastRunDateTime(): void
     {
         $directory = storage_path('app/stock-price-updates');
+        $path = "{$directory}/last-run-at.txt";
 
         File::ensureDirectoryExists($directory);
-        File::put("{$directory}/last-run-at.txt", now()->format('d-m-Y h:i:s a'));
+        File::replace($path, now()->toDateTimeString(), 0664);
     }
 }

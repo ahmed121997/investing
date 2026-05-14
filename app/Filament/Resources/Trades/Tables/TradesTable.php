@@ -62,7 +62,7 @@ class TradesTable
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Created')
-                    ->dateTime()
+                    ->dateTime('M d, Y h:i a')
                     ->sortable(),
             ])
             ->defaultSort('status', 'asc')

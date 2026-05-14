@@ -70,10 +70,10 @@ class TradeResource extends Resource
                             }),
                         TextEntry::make('created_at')
                             ->label('Created')
-                            ->dateTime(),
+                            ->dateTime('M d, Y h:i a'),
                         TextEntry::make('updated_at')
                             ->label('Updated')
-                            ->dateTime(),
+                            ->dateTime('M d, Y h:i a'),
                     ]),
             ]);
     }

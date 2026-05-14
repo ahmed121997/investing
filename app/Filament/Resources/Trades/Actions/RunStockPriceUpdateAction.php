@@ -8,7 +8,9 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
+use Throwable;
 
 class RunStockPriceUpdateAction
 {
@@ -82,7 +84,7 @@ class RunStockPriceUpdateAction
         }
 
         if (File::exists($lastRunPath)) {
-            return trim(File::get($lastRunPath)) ?: null;
+            return self::formatDateTime(trim(File::get($lastRunPath)));
         }
 
         $files = File::glob("{$directory}/*.{log,status}", GLOB_BRACE);
@@ -92,6 +94,24 @@ class RunStockPriceUpdateAction
         }
 
         $lastModified = max(array_map(fn (string $path): int => File::lastModified($path), $files));
-        return now()->setTimestamp($lastModified)->format('d-m-Y h:i:s a');
+
+        return Carbon::createFromTimestamp($lastModified)->diffForHumans();
+    }
+
+    private static function formatDateTime(?string $dateTime): ?string
+    {
+        if (blank($dateTime)) {
+            return null;
+        }
+
+        try {
+            return Carbon::createFromFormat('d-m-Y h:i:s a', $dateTime)->diffForHumans();
+        } catch (Throwable) {
+            try {
+                return Carbon::parse($dateTime)->diffForHumans();
+            } catch (Throwable) {
+                return $dateTime;
+            }
+        }
     }
 }
