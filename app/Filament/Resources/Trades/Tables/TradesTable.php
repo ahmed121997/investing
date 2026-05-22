@@ -25,7 +25,7 @@ class TradesTable
         return $table
             ->columns([
                 TextColumn::make('stock.name')
-                    ->formatStateUsing(fn ($state, $record) => Str::limit($state, 20, '...') . ' (' . $record->stock->code . ')')
+                    ->formatStateUsing(fn ($state, $record) => Str::limit($state, 15, '...') . ' (' . $record->stock->code . ')')
                     ->label('Stock')
                     ->sortable()
                     ->searchable(['name', 'code']),
@@ -42,11 +42,15 @@ class TradesTable
                     ))->html()
                     ->label('Current Total'),
                 TextColumn::make('total_trades_amount')
-                    ->label('Total Trades Amount')
-                    ->numeric(decimalPlaces: 2),
+                    ->label('Trades Amount')
+                    ->numeric(decimalPlaces: 2)
+                    ->sortable(query: fn (Builder $query, string $direction): Builder => $query
+                        ->orderByRaw(self::totalTradesAmountExpression() . " {$direction}")),
                 TextColumn::make('profit_loss')
                     ->label('Profit/Loss')
                     ->numeric(decimalPlaces: 2)
+                    ->sortable(query: fn (Builder $query, string $direction): Builder => $query
+                        ->orderByRaw(self::profitLossExpression() . " {$direction}"))
                     ->color(fn (mixed $state): string => match (true) {
                         $state > 0 => 'success',
                         $state < 0 => 'danger',
@@ -65,7 +69,8 @@ class TradesTable
                     ->dateTime('M d, Y h:i a')
                     ->sortable(),
             ])
-            ->defaultSort('status', 'asc')
+            ->defaultSort(fn (Builder $query): Builder => $query
+                ->orderByRaw(self::profitLossExpression() . ' desc'))
             ->filters([
                 SelectFilter::make('status')
                     ->native(false)
@@ -88,19 +93,7 @@ class TradesTable
                             return $query;
                         }
 
-                        $profitLossExpression = '(
-                            trades.amount * (
-                                SELECT stocks.price
-                                FROM stocks
-                                WHERE stocks.id = trades.stock_id
-                            )
-                        ) + COALESCE((
-                            SELECT SUM(trade_tracks.amount)
-                            FROM trade_tracks
-                            WHERE trade_tracks.trade_id = trades.id
-                        ), 0)';
-
-                        return $query->whereRaw($profitLossExpression . ($value === 'win' ? ' > 0' : ' < 0'));
+                        return $query->whereRaw(self::profitLossExpression() . ($value === 'win' ? ' > 0' : ' < 0'));
                     }),
             ])
             ->recordActions([
@@ -143,5 +136,25 @@ class TradesTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private static function profitLossExpression(): string
+    {
+        return '(
+            trades.amount * (
+                SELECT stocks.price
+                FROM stocks
+                WHERE stocks.id = trades.stock_id
+            )
+        ) + ' . self::totalTradesAmountExpression();
+    }
+
+    private static function totalTradesAmountExpression(): string
+    {
+        return 'COALESCE((
+            SELECT SUM(trade_tracks.amount)
+            FROM trade_tracks
+            WHERE trade_tracks.trade_id = trades.id
+        ), 0)';
     }
 }
