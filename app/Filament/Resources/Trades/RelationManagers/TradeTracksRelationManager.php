@@ -53,17 +53,15 @@ class TradeTracksRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                 TextColumn::make('date')
+                    ->label('Date')
+                    ->dateTime('M d, Y h:i a')
                     ->sortable(),
                 TextColumn::make('amount')
                     ->label('Amount')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
-                TextColumn::make('date')
-                    ->label('Date')
-                    ->dateTime('M d, Y h:i a')
-                    ->sortable(),
+
                 TextColumn::make('type')
                     ->label('Type')
                     ->sortable(),

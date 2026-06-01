@@ -24,7 +24,7 @@ class StockPriceUpdateDetailsAction
                     ->color('gray')
                     ->action(fn (ListTrades $livewire) => $livewire->redirect(TradeResource::getUrl('index'), navigate: false)),
             ])
-            ->modalWidth(Width::ScreenLarge)
+            ->modalWidth(Width::ScreenSmall)
             ->modalContent(fn (ListTrades $livewire) => view('filament.resources.trades.actions.stock-price-update-details', [
                 'result' => $livewire->stockPriceUpdateResult,
             ]));
