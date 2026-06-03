@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Trades\Tables;
 
+use App\Models\Trade;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -13,10 +14,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Filament\Tables\Table;
 
 class TradesTable
 {
@@ -25,7 +26,13 @@ class TradesTable
         return $table
             ->columns([
                 TextColumn::make('stock.name')
-                    ->formatStateUsing(fn ($state, $record) => Str::limit($state, 15, '...') . ' (' . $record->stock->code . ')')
+                    ->formatStateUsing(fn ($state, $record): HtmlString => new HtmlString(
+                        e(Str::limit($state, 15, '...'))
+                        .' ('.e($record->stock->code).') '
+                        .'<span style="display: inline-flex; align-items: center; background-color: #dcfce7; color: #166534; padding: 0.125rem 0.375rem;border-radius: 9999px; font-size: 0.65rem; font-weight: 400; line-height: 1;">'
+                        .e($record->year)
+                        .'</span>',
+                    ))->html()
                     ->label('Stock')
                     ->sortable()
                     ->searchable(['name', 'code']),
@@ -36,21 +43,21 @@ class TradesTable
                 TextColumn::make('current_total')
                     ->formatStateUsing(fn ($state, $record): HtmlString => new HtmlString(
                         e(number_format((float) $state, 2))
-                        . ' (<span style="color: #10b981;">'
-                        . e($record->stock?->price)
-                        . '</span>)',
+                        .' (<span style="color: #10b981;">'
+                        .e($record->stock?->price)
+                        .'</span>)',
                     ))->html()
                     ->label('Current Total'),
                 TextColumn::make('total_trades_amount')
                     ->label('Trades Amount')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query
-                        ->orderByRaw(self::totalTradesAmountExpression() . " {$direction}")),
+                        ->orderByRaw(self::totalTradesAmountExpression()." {$direction}")),
                 TextColumn::make('profit_loss')
                     ->label('Profit/Loss')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query
-                        ->orderByRaw(self::profitLossExpression() . " {$direction}"))
+                        ->orderByRaw(self::profitLossExpression()." {$direction}"))
                     ->color(fn (mixed $state): string => match (true) {
                         $state > 0 => 'success',
                         $state < 0 => 'danger',
@@ -66,11 +73,11 @@ class TradesTable
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Created')
-                    ->dateTime('M d, Y h:i a')
+                    ->dateTime('M d, Y')
                     ->sortable(),
             ])
             ->defaultSort(fn (Builder $query): Builder => $query
-                ->orderByRaw(self::profitLossExpression() . ' desc'))
+                ->orderByRaw(self::profitLossExpression().' desc'))
             ->filters([
                 SelectFilter::make('status')
                     ->native(false)
@@ -79,6 +86,10 @@ class TradesTable
                         'open' => 'Open',
                         'close' => 'Close',
                     ]),
+                SelectFilter::make('year')
+                    ->label('Year')
+                    ->native(false)
+                    ->options(fn (): array => self::yearOptions()),
                 SelectFilter::make('profit_loss_status')
                     ->label('Result')
                     ->native(false)
@@ -93,7 +104,7 @@ class TradesTable
                             return $query;
                         }
 
-                        return $query->whereRaw(self::profitLossExpression() . ($value === 'win' ? ' > 0' : ' < 0'));
+                        return $query->whereRaw(self::profitLossExpression().($value === 'win' ? ' > 0' : ' < 0'));
                     }),
             ])
             ->recordActions([
@@ -146,7 +157,7 @@ class TradesTable
                 FROM stocks
                 WHERE stocks.id = trades.stock_id
             )
-        ) + ' . self::totalTradesAmountExpression();
+        ) + '.self::totalTradesAmountExpression();
     }
 
     private static function totalTradesAmountExpression(): string
@@ -156,5 +167,24 @@ class TradesTable
             FROM trade_tracks
             WHERE trade_tracks.trade_id = trades.id
         ), 0)';
+    }
+
+    private static function yearOptions(): array
+    {
+        $currentYear = (int) now()->year;
+
+        $years = Trade::query()
+            ->whereNotNull('year')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->map(fn (int $year): int => $year)
+            ->push($currentYear)
+            ->unique()
+            ->sortDesc();
+
+        return $years
+            ->mapWithKeys(fn (int $year): array => [(string) $year => (string) $year])
+            ->all();
     }
 }

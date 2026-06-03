@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Stock;
-use App\Models\TradeTrack;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,12 +12,23 @@ class Trade extends Model
         'stock_id',
         'amount', // amount stocks
         'status',
+        'year',
     ];
-    protected $appends = ['current_total','total_trades_amount' ,'profit_loss'];
+
+    protected $appends = ['current_total', 'total_trades_amount', 'profit_loss'];
+
     protected $casts = [
         'amount' => 'double',
         'status' => 'string',
+        'year' => 'integer',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Trade $trade): void {
+            $trade->year ??= (int) now()->year;
+        });
+    }
 
     public function stock(): BelongsTo
     {

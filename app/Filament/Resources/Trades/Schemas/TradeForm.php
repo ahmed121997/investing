@@ -22,6 +22,12 @@ class TradeForm
                     ->label('Amount')
                     ->numeric()
                     ->default(0),
+                Select::make('year')
+                    ->label('Year')
+                    ->native(false)
+                    ->options(fn (): array => self::yearOptions())
+                    ->default((int) now()->year)
+                    ->required(),
                 Select::make('status')
                     ->label('Status')
                     ->native(false)
@@ -32,5 +38,14 @@ class TradeForm
                     ->default('open')
                     ->required(),
             ]);
+    }
+
+    private static function yearOptions(): array
+    {
+        $currentYear = (int) now()->year;
+
+        return collect(range($currentYear + 1, $currentYear - 10))
+            ->mapWithKeys(fn (int $year): array => [$year => (string) $year])
+            ->all();
     }
 }
