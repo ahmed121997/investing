@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class OpenTradesPercentageChart extends ChartWidget
 {
-    protected static ?string $heading = 'Open vs Closed Trades';
+    protected ?string $heading = 'Open vs Closed Trades';
 
     protected function getData(): array
     {

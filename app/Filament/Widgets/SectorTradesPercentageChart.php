@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class SectorTradesPercentageChart extends ChartWidget
 {
-    protected static ?string $heading = 'Trades by Sector';
+    protected ?string $heading = 'Trades by Sector';
 
     protected function getData(): array
     {
