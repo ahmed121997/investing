@@ -23,6 +23,10 @@ class StocksTable
                     ->label('Code')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('sector.name_ar')
+                    ->label('Sector')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('market')
                     ->label('Market')
                     ->searchable()

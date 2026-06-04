@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Stocks\Schemas;
 
+use App\Models\Sector;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 
 class StockForm
@@ -30,6 +32,12 @@ class StockForm
                     ->numeric()
                     ->required()
                     ->step(0.01),
+                Select::make('sector_id')
+                    ->label('Sector')
+                    ->options(Sector::pluck('name_ar', 'id'))
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 }
+
