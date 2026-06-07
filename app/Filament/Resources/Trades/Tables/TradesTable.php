@@ -13,11 +13,11 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 
 class TradesTable
 {
@@ -25,14 +25,8 @@ class TradesTable
     {
         return $table
             ->columns([
-                TextColumn::make('stock.name')
-                    ->formatStateUsing(fn ($state, $record): HtmlString => new HtmlString(
-                        e(Str::limit($state, 15, '...'))
-                        .' ('.e($record->stock->code).') '
-                        .'<span style="display: inline-flex; align-items: center; background-color: #dcfce7; color: #166534; padding: 0.125rem 0.375rem;border-radius: 9999px; font-size: 0.65rem; font-weight: 400; line-height: 1;">'
-                        .e($record->year)
-                        .'</span>',
-                    ))->html()
+                ViewColumn::make('stock.name')
+                    ->view('filament.resources.trades.tables.stock-name-column')
                     ->label('Stock')
                     ->sortable()
                     ->searchable(['name', 'code']),
@@ -76,6 +70,7 @@ class TradesTable
                     ->dateTime('M d, Y')
                     ->sortable(),
             ])
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('stock.sector'))
             ->defaultSort(fn (Builder $query): Builder => $query
                 ->orderByRaw(self::profitLossExpression().' desc'))
             ->filters([

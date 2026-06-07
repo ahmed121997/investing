@@ -4,7 +4,8 @@ namespace App\Filament\Resources\Sectors\Tables;
 
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 class SectorsTable
 {
     public static function configure(Table $table): Table
@@ -19,16 +20,13 @@ class SectorsTable
                     ->label('Name (Arabic)')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->label('Created')
-                    ->dateTime()
-                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                //
+                EditAction::make()->iconButton(),
+                DeleteAction::make()->iconButton(),
             ])
             ->bulkActions([
                 //

@@ -47,8 +47,6 @@ class SectorResource extends Resource
     {
         return [
             'index' => ListSectors::route('/'),
-            'create' => CreateSector::route('/create'),
-            'edit' => EditSector::route('/{record}/edit'),
         ];
     }
 }

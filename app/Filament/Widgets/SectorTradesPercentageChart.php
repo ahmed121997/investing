@@ -4,43 +4,41 @@ namespace App\Filament\Widgets;
 
 use App\Models\Trade;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\DB;
 
 class SectorTradesPercentageChart extends ChartWidget
 {
-    protected ?string $heading = 'Trades by Sector';
+    protected ?string $heading = 'Open Trade Value by Sector';
 
     protected function getData(): array
     {
         $sectorTrades = Trade::query()
             ->join('stocks', 'trades.stock_id', '=', 'stocks.id')
             ->leftJoin('sectors', 'stocks.sector_id', '=', 'sectors.id')
+            ->where('trades.status', 'open')
             ->selectRaw('COALESCE(sectors.name_ar, "No Sector") as sector_name')
-            ->selectRaw('COUNT(trades.id) as trade_count')
+            ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->groupBy('sectors.id', 'sectors.name_ar')
-            ->orderByDesc('trade_count')
+            ->orderByDesc('total')
             ->get();
 
-        $totalTrades = $sectorTrades->sum('trade_count');
+        $totalTradeValue = (float) $sectorTrades->sum('total');
 
-        $colors = [
-            '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
-            '#ec4899', '#14b8a6', '#f97316', '#06b6d4', '#84cc16',
-            '#6366f1', '#d946ef', '#0ea5e9', '#6ee7b7', '#fbbf24',
-        ];
+        $colors = $this->getSectorColors($sectorTrades->count());
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Number of Trades',
-                    'data' => $sectorTrades->pluck('trade_count')->toArray(),
-                    'backgroundColor' => array_slice($colors, 0, count($sectorTrades)),
+                    'label' => 'Trade Value',
+                    'data' => $sectorTrades->pluck('total')->map(fn ($total) => (float) $total)->toArray(),
+                    'backgroundColor' => $colors,
                     'borderColor' => '#ffffff',
                     'borderWidth' => 2,
                 ],
             ],
-            'labels' => $sectorTrades->map(function ($item) use ($totalTrades) {
-                $percentage = $totalTrades > 0 ? round(($item->trade_count / $totalTrades) * 100, 1) : 0;
+            'labels' => $sectorTrades->map(function ($item) use ($totalTradeValue) {
+                $total = (float) $item->total;
+                $percentage = $totalTradeValue > 0 ? round(($total / $totalTradeValue) * 100, 1) : 0;
+
                 return $item->sector_name . ' (' . $percentage . '%)';
             })->toArray(),
         ];
@@ -49,5 +47,33 @@ class SectorTradesPercentageChart extends ChartWidget
     protected function getType(): string
     {
         return 'doughnut';
+    }
+
+    private function getSectorColors(int $count): array
+    {
+        $colors = [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+            '#C9CBCF',
+            '#2ECC71',
+            '#E74C3C',
+            '#34495E',
+            '#1ABC9C',
+            '#9B59B6',
+            '#F1C40F',
+            '#E67E22',
+            '#7F8C8D',
+        ];
+
+        for ($index = count($colors); $index < $count; $index++) {
+            $hue = ($index * 137) % 360;
+            $colors[] = "hsl({$hue}, 70%, 55%)";
+        }
+
+        return array_slice($colors, 0, $count);
     }
 }

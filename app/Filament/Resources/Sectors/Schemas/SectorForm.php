@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Sectors\Schemas;
 
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 
 class SectorForm
 {
@@ -13,6 +13,7 @@ class SectorForm
         return $schema
             ->schema([
                 Section::make('Sector Information')
+                    ->columnSpan('full')
                     ->schema([
                         TextInput::make('name')
                             ->label('Name (English)')

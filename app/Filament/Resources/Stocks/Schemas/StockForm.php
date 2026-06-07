@@ -31,7 +31,7 @@ class StockForm
                     ->label('Price')
                     ->numeric()
                     ->required()
-                    ->step(0.01),
+                    ->step(0.001),
                 Select::make('sector_id')
                     ->label('Sector')
                     ->options(Sector::pluck('name_ar', 'id'))
