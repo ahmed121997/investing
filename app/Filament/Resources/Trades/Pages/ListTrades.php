@@ -40,7 +40,7 @@ class ListTrades extends ListRecords
                         ->label('New Price')
                         ->numeric()
                         ->required()
-                        ->step(0.01),
+                        ->step(0.001),
                 ])
                 ->action(function (array $data) {
                     $stock = Stock::find($data['stock_id']);
