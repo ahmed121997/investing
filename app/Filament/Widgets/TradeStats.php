@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Sector;
 use App\Models\Trade;
 use App\Models\TradeTrack;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -16,6 +17,7 @@ class TradeStats extends BaseWidget
         $totalTrades = Trade::count();
         $totalOpenTrades = Trade::where('status', 'open')->count();
         $totalClosedTrades = Trade::where('status', 'close')->count();
+        $totalSectors = Sector::count();
 
         $tradeTrackTotals = TradeTrack::query()
             ->select('trade_id')
@@ -49,6 +51,10 @@ class TradeStats extends BaseWidget
                 ->description('Trades currently closed')
                 ->descriptionIcon('heroicon-m-lock-closed')
                 ->color('gray'),
+            Stat::make('Sectors', $totalSectors)
+                ->description('Total market sectors')
+                ->descriptionIcon('heroicon-m-building-office-2')
+                ->color('warning'),
             Stat::make('Win Trades', (int) ($profitLossCounts->winning_trades ?? 0))
                 ->description('Trades with profit')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
@@ -57,11 +63,16 @@ class TradeStats extends BaseWidget
                 ->description('Trades with loss')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
+            Stat::make('Draw Trades', $totalTrades - (int) ($profitLossCounts->winning_trades ?? 0) - (int) ($profitLossCounts->losing_trades ?? 0))
+                ->descriptionIcon('heroicon-m-chart-bar-square')
+                ->color('warning'),
+
             Stat::make('Total Profit/Loss', number_format($totalProfitLoss, 2))
                 ->description($totalProfitLoss >= 0 ? 'Total portfolio profit' : 'Total portfolio loss')
                 ->descriptionIcon($totalProfitLoss >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($totalProfitLoss >= 0 ? 'success' : 'danger'),
-        
+
+
         ];
     }
 }

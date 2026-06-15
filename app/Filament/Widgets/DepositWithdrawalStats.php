@@ -4,6 +4,8 @@ namespace App\Filament\Widgets;
 
 use App\Models\User;
 use App\Models\Stock;
+use App\Models\Trade;
+use App\Models\Wallet;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,9 @@ class DepositWithdrawalStats extends BaseWidget
         $totalWithdrawals = $user->withdrawals()->sum('amount') ?? 0;
         $balance = $totalDeposits - $totalWithdrawals;
         $totalStocks = Stock::count();
+        $walletTotal = $this->walletTotal();
+        $profit = $walletTotal - $balance;
+        $profitPercentage = $balance > 0 ? round(($profit / $balance) * 100, 1) : 0;
 
         // Get profile image URL
         $profileImageUrl = null;
@@ -35,7 +40,7 @@ class DepositWithdrawalStats extends BaseWidget
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
             Stat::make('Balance', '$' . number_format($balance, 2))
-                ->description('Deposits minus withdrawals')
+                ->description($profitPercentage . '% profit')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color($balance >= 0 ? 'success' : 'danger'),
             Stat::make('Stocks', $totalStocks)
@@ -43,5 +48,21 @@ class DepositWithdrawalStats extends BaseWidget
                 ->descriptionIcon('heroicon-m-chart-bar-square')
                 ->color('warning'),
         ];
+    }
+
+    private function walletTotal(): float
+    {
+        $openStocksTotal = (float) Trade::query()
+            ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
+            ->where('trades.status', 'open')
+            ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
+            ->value('total');
+
+        $wallet = Wallet::query()->firstOrCreate(
+            ['user_id' => Auth::id()],
+            ['cash' => 0, 'save_cloud' => 0],
+        );
+
+        return $openStocksTotal + (float) $wallet->cash + (float) $wallet->save_cloud;
     }
 }
