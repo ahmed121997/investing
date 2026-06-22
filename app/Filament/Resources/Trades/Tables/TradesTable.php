@@ -105,6 +105,7 @@ class TradesTable
             ->recordActions([
                 Action::make('addTradeTrack')
                     ->label('Add')
+                    ->modalHeading(fn (Trade $record): string => 'Add Track - '.$record->stock?->code)
                     ->icon('heroicon-o-plus')
                     ->color('success')
                     ->form([
