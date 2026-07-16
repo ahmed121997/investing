@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources\Deposits;
 
-use App\Filament\Resources\Deposits\Pages\CreateDeposit;
-use App\Filament\Resources\Deposits\Pages\EditDeposit;
 use App\Filament\Resources\Deposits\Pages\ListDeposits;
 use App\Filament\Resources\Deposits\Schemas\DepositForm;
 use App\Filament\Resources\Deposits\Tables\DepositsTable;
 use App\Models\Deposit;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use BackedEnum;
 
 class DepositResource extends Resource
 {
@@ -23,7 +21,11 @@ class DepositResource extends Resource
     {
         return 2;
     }
-    protected static ?string $navigationLabel = 'Deposits';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.deposits');
+    }
 
     public static function form(Schema $schema): Schema
     {

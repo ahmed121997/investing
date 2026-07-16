@@ -26,6 +26,10 @@ class TradeResource extends Resource
     {
         return 5;
     }
+    public static function getNavigationLabel(): string
+    {
+        return __('app.trades');
+    }
 
     public static function form(Schema $schema): Schema
     {

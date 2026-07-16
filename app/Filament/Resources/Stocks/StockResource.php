@@ -21,8 +21,10 @@ class StockResource extends Resource
     {
         return 4;
     }
-    protected static ?string $navigationLabel = 'Stocks';
-
+    public static function getNavigationLabel(): string
+    {
+        return __('app.stocks');
+    }
     public static function form(Schema $schema): Schema
     {
         return StockForm::configure($schema);

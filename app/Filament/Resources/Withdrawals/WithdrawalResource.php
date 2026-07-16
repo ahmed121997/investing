@@ -23,7 +23,12 @@ class WithdrawalResource extends Resource
     {
         return 3;
     }
-    protected static ?string $navigationLabel = 'Withdrawals';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.withdrawals');
+    }
+
 
     public static function form(Schema $schema): Schema
     {

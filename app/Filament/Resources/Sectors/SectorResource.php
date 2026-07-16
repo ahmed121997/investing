@@ -24,8 +24,10 @@ class SectorResource extends Resource
         return 5;
     }
 
-    protected static ?string $navigationLabel = 'Sectors';
-
+    public static function getNavigationLabel(): string
+    {
+        return __('app.sectors');
+    }
     public static function form(Schema $schema): Schema
     {
         return SectorForm::configure($schema);
