@@ -22,14 +22,12 @@ class TradeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+
     public static function getNavigationSort(): ?int
     {
         return 5;
     }
-    public static function getNavigationLabel(): string
-    {
-        return __('app.trades');
-    }
+
 
     public static function form(Schema $schema): Schema
     {
