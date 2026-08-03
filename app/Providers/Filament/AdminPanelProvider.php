@@ -31,13 +31,10 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->profile()
             ->login()
             ->favicon(asset('favicon.svg'))
-            ->renderHook(
-                PanelsRenderHook::STYLES_AFTER,
-                fn (): string => '<link rel="stylesheet" href="'.asset('css/filament/admin/theme.css').'">',
-            )
             ->renderHook(
                 PanelsRenderHook::GLOBAL_SEARCH_AFTER,
                 fn (): string => view('filament.components.language-switcher')->render(),

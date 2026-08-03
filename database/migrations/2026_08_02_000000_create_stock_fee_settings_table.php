@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('stock_fee_settings', function (Blueprint $table) {
             $table->id();
-            $table->double('thunder_percentage')->nullable();
-            $table->double('thunder_fixed_fee')->nullable();
-            $table->double('exchange_fee_percentage')->nullable();
-            $table->double('egx_fee_percentage')->nullable();
-            $table->double('misr_clearing_fee_percentage')->nullable();
-            $table->double('fra_fee_percentage')->nullable();
+            $table->double('thunder_percentage')->nullable()->default(0.1);
+            $table->double('thunder_fixed_fee')->nullable()->default(2);
+            $table->double('exchange_fee_percentage')->nullable()->default(0.01);
+            $table->double('risk_fund_fee_percentage')->nullable()->default(0.01);
+            $table->double('misr_clearing_fee_percentage')->nullable()->default(0.005);
+            $table->double('fra_fee_percentage')->nullable()->default(0.005);
             $table->timestamps();
         });
     }

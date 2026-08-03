@@ -347,7 +347,7 @@ CREATE TABLE `stock_fee_settings` (
   `thunder_percentage` double DEFAULT NULL,
   `thunder_fixed_fee` double DEFAULT NULL,
   `exchange_fee_percentage` double DEFAULT NULL,
-  `egx_fee_percentage` double DEFAULT NULL,
+  `risk_fund_fee_percentage` double DEFAULT NULL,
   `misr_clearing_fee_percentage` double DEFAULT NULL,
   `fra_fee_percentage` double DEFAULT NULL,
   `fra_fee_minimum` double DEFAULT '1',

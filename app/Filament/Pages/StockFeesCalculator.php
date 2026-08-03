@@ -2,9 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Services\StockFeesCalculationResult;
 use App\Services\StockFeesCalculatorService;
 use BackedEnum;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -16,21 +17,33 @@ class StockFeesCalculator extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalculator;
 
-    protected static ?string $navigationLabel = 'Stock Fees Calculator';
-
-    protected static string|\UnitEnum|null $navigationGroup = 'Financial Tools';
-
     protected static ?int $navigationSort = 1;
 
     protected string $view = 'filament.pages.stock-fees-calculator';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.stock_fees.calculator_page');
+    }
+
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return __('app.stock_fees.tools_group');
+    }
+
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable|string
+    {
+        return __('app.stock_fees.calculator_page');
+    }
 
     public ?array $data = [];
 
     public function mount(): void
     {
         $this->form->fill([
-            'input_method' => 'trade_value',
-            'thunder_x' => 'no',
+            'input_method' => StockFeesCalculatorService::INPUT_METHOD_TRADE_VALUE,
+            'thunder_x' => StockFeesCalculatorService::THUNDER_X_NO,
+            'settlement_type' => StockFeesCalculatorService::SETTLEMENT_T0,
         ]);
     }
 
@@ -44,55 +57,87 @@ class StockFeesCalculator extends Page
         return $schema
             ->columns(1)
             ->components([
-                Section::make('Trade Details')
+                Section::make(__('app.stock_fees.input_section'))
                     ->columns(2)
                     ->schema([
-                        Select::make('input_method')
-                            ->label('Input Method')
+                        Radio::make('input_method')
+                            ->label(__('app.stock_fees.input_method'))
                             ->options([
-                                'trade_value' => 'Trade Value Directly',
-                                'quantity' => 'Shares Quantity × Share Price',
+                                StockFeesCalculatorService::INPUT_METHOD_TRADE_VALUE => __('app.stock_fees.input_method_trade_value'),
+                                StockFeesCalculatorService::INPUT_METHOD_QUANTITY => __('app.stock_fees.input_method_quantity'),
                             ])
-                            ->default('trade_value')
-                            ->live(),
-                        Select::make('thunder_x')
-                            ->label('Thunder X Membership')
+                            ->default(StockFeesCalculatorService::INPUT_METHOD_TRADE_VALUE)
+                            ->live()
+                            ->columnSpan(2),
+                        Radio::make('thunder_x')
+                            ->label(__('app.stock_fees.thunder_membership'))
                             ->options([
-                                'no' => 'No',
-                                'yes' => 'Yes',
+                                StockFeesCalculatorService::THUNDER_X_NO => __('app.stock_fees.no'),
+                                StockFeesCalculatorService::THUNDER_X_YES => __('app.stock_fees.yes'),
                             ])
-                            ->default('no')
-                            ->live(),
+                            ->default(StockFeesCalculatorService::THUNDER_X_NO)
+                            ->inline()
+                            ->live()
+                            ->columnSpan(2),
+                        Radio::make('settlement_type')
+                            ->label(__('app.stock_fees.settlement_type'))
+                            ->options([
+                                StockFeesCalculatorService::SETTLEMENT_T0 => __('app.stock_fees.settlement_t0'),
+                                StockFeesCalculatorService::SETTLEMENT_T1_T2 => __('app.stock_fees.settlement_t1_t2'),
+                            ])
+                            ->default(StockFeesCalculatorService::SETTLEMENT_T0)
+                            ->inline()
+                            ->live()
+                            ->columnSpan(2),
                         TextInput::make('trade_value')
-                            ->label('Trade Value')
+                            ->label(__('app.stock_fees.trade_value'))
                             ->numeric()
+                            ->minValue(0)
+                            ->required()
                             ->prefix('EGP')
                             ->step(0.01)
+                            ->placeholder('0.00')
                             ->live()
-                            ->visible(fn (Get $get): bool => $get('input_method') === 'trade_value')
+                            ->visible(fn (Get $get): bool => $get('input_method') === StockFeesCalculatorService::INPUT_METHOD_TRADE_VALUE)
                             ->columnSpan(2),
                         TextInput::make('quantity')
-                            ->label('Shares Quantity')
+                            ->label(__('app.stock_fees.quantity'))
                             ->numeric()
+                            ->minValue(0)
                             ->step(0.0001)
+                            ->placeholder('0')
                             ->live()
-                            ->visible(fn (Get $get): bool => $get('input_method') === 'quantity'),
+                            ->visible(fn (Get $get): bool => $get('input_method') === StockFeesCalculatorService::INPUT_METHOD_QUANTITY),
                         TextInput::make('share_price')
-                            ->label('Share Price')
+                            ->label(__('app.stock_fees.share_price'))
                             ->numeric()
+                            ->minValue(0)
                             ->prefix('EGP')
                             ->step(0.0001)
+                            ->placeholder('0.0000')
                             ->live()
-                            ->visible(fn (Get $get): bool => $get('input_method') === 'quantity'),
+                            ->visible(fn (Get $get): bool => $get('input_method') === StockFeesCalculatorService::INPUT_METHOD_QUANTITY),
                     ]),
             ]);
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<int, string>>
      */
-    public function getResults(): array
+    protected function rules(): array
     {
-        return app(StockFeesCalculatorService::class)->calculate($this->data);
+        return [
+            'data.input_method' => ['required', 'in:trade_value,quantity'],
+            'data.thunder_x' => ['required', 'in:no,yes'],
+            'data.settlement_type' => ['required', 'in:t0,t1_t2'],
+            'data.trade_value' => ['nullable', 'numeric', 'min:0'],
+            'data.quantity' => ['nullable', 'numeric', 'min:0'],
+            'data.share_price' => ['nullable', 'numeric', 'min:0'],
+        ];
+    }
+
+    public function getResults(): StockFeesCalculationResult
+    {
+        return StockFeesCalculatorService::make()->calculate($this->data ?? []);
     }
 }

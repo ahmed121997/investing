@@ -4,7 +4,7 @@
 
         <div class="flex justify-end gap-3">
             <x-filament::button type="submit">
-                Save Settings
+                {{ __('app.stock_fees.save_settings') }}
             </x-filament::button>
         </div>
     </form>
