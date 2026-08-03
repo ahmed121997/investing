@@ -1,4 +1,25 @@
 <x-filament-panels::page>
+    <script>
+        window.copyToClipboard = function (text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+
+            return new Promise((resolve) => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                resolve();
+            });
+        };
+    </script>
+
     {{ $this->form }}
 
     @php($results = $this->getResults())
@@ -66,7 +87,7 @@
                             @if ($copy($card['value'], $card['decimals']) !== '')
                                 <button
                                     type="button"
-                                    x-on:click="navigator.clipboard.writeText(@js($copy($card['value'], $card['decimals']))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
+                                    x-on:click="window.copyToClipboard(@js($copy($card['value'], $card['decimals']))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
                                     @class([
                                         'shrink-0 rounded-lg p-1.5 transition',
                                         'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white' => $card['highlight'],
@@ -203,7 +224,7 @@
 
                                 <button
                                     type="button"
-                                    x-on:click="navigator.clipboard.writeText(@js($copy($row['value']))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
+                                    x-on:click="window.copyToClipboard(@js($copy($row['value']))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
                                     class="shrink-0 rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-primary-600 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-primary-400"
                                     :title="copied ? @js(__('app.stock_fees.copied')) : @js(__('app.stock_fees.copy'))"
                                 >
@@ -250,7 +271,7 @@
 
                     <button
                         type="button"
-                        x-on:click="navigator.clipboard.writeText(@js($copy($results->breakEvenSharePrice, 4))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
+                        x-on:click="window.copyToClipboard(@js($copy($results->breakEvenSharePrice, 4))).then(() => { copied = true; setTimeout(() => copied = false, 1500); })"
                         class="inline-flex shrink-0 items-center gap-2 rounded-xl border border-primary-300 bg-white px-4 py-2.5 text-sm font-medium text-primary-700 transition hover:bg-primary-100 dark:border-primary-500/40 dark:bg-white/5 dark:text-primary-300 dark:hover:bg-primary-500/20"
                         :disabled="@js($results->breakEvenSharePrice === null)"
                         :class="{ 'opacity-40 pointer-events-none': @js($results->breakEvenSharePrice === null) }"
