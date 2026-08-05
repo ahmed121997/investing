@@ -31,27 +31,43 @@ class TradeTracksRelationManager extends RelationManager
         return false;
     }
 
+    public static function getModelLabel(): string
+    {
+        return __('app.trade_track');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.trade_tracks');
+    }
+
+    // title of table
+    public static function getRelationshipTitle(): string
+    {
+        return __('app.trade_tracks');
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric()
                     ->required()
                     ->step(0.01),
                 DateTimePicker::make('date')
-                    ->label('Date')
+                    ->label(__('app.date'))
                     ->default(now())
                     ->native(false)
                     ->required(),
                 Select::make('type')
-                    ->label('Type')
+                    ->label(__('app.type'))
                     ->native(false)
                     ->options([
-                        'buy' => 'Buy',
-                        'sell' => 'Sell',
-                        'profit' => 'Profit',
+                        'buy' => __('app.buy'),
+                        'sell' => __('app.sell'),
+                        'profit' => __('app.profit'),
                     ]),
             ]);
     }
@@ -61,27 +77,27 @@ class TradeTracksRelationManager extends RelationManager
         return $table
             ->columns([
                 TextColumn::make('date')
-                    ->label('Date')
+                    ->label(__('app.date'))
                     ->dateTime('M d, Y h:i a')
                     ->sortable(),
                 TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
 
                 TextColumn::make('type')
-                    ->label('Type')
+                    ->label(__('app.type'))
                     ->sortable(),
             ])
             ->filters([
                 Filter::make('date')
-                    ->label('Date range')
+                    ->label(__('app.date_range'))
                     ->schema([
                         DatePicker::make('from')
-                            ->label('From')
+                            ->label(__('app.from'))
                             ->native(false),
                         DatePicker::make('until')
-                            ->label('Until')
+                            ->label(__('app.until'))
                             ->native(false),
                     ])
                     ->query(fn (Builder $query, array $data): Builder => $query
@@ -97,12 +113,12 @@ class TradeTracksRelationManager extends RelationManager
                         $indicators = [];
 
                         if ($data['from'] ?? null) {
-                            $indicators[] = Indicator::make('From '.Carbon::parse($data['from'])->toFormattedDateString())
+                            $indicators[] = Indicator::make(__('app.from_date', ['date' => Carbon::parse($data['from'])->toFormattedDateString()]))
                                 ->removeField('from');
                         }
 
                         if ($data['until'] ?? null) {
-                            $indicators[] = Indicator::make('Until '.Carbon::parse($data['until'])->toFormattedDateString())
+                            $indicators[] = Indicator::make(__('app.until_date', ['date' => Carbon::parse($data['until'])->toFormattedDateString()]))
                                 ->removeField('until');
                         }
 
@@ -111,7 +127,7 @@ class TradeTracksRelationManager extends RelationManager
             ])
             ->headerActions([
                 Action::make('totalAmount')
-                    ->label(fn (): string => 'Total: '.number_format((float) $this->getFilteredTableQuery()?->sum('amount'), 2))
+                    ->label(fn (): string => __('app.total_with_value', ['value' => number_format((float) $this->getFilteredTableQuery()?->sum('amount'), 2)]))
                     ->badge()
                     ->color('success')
                     ->disabled(),

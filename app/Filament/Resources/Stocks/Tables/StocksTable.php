@@ -17,15 +17,15 @@ class StocksTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('app.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('code')
-                    ->label('Code')
+                    ->label(__('app.code'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('sector.name_ar')
-                    ->label('Sector')
+                    ->label(__('app.sector'))
                     ->searchable()
                     ->sortable(),
                 // TextColumn::make('market')
@@ -33,16 +33,16 @@ class StocksTable
                 //     ->searchable()
                 //     ->sortable(),
                 TextColumn::make('price')
-                    ->label('Price')
+                    ->label(__('app.price'))
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->label('Last Updated')
+                    ->label(__('app.last_updated'))
                     ->dateTime('M d, Y h:i a')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('sector_id')
-                    ->label('Sector')
+                    ->label(__('app.sector'))
                     ->native(false)
                     ->searchable()
                     ->preload()

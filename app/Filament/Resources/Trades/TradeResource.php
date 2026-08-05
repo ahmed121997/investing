@@ -33,6 +33,16 @@ class TradeResource extends Resource
         return __('app.trades');
     }
 
+    public static function getModelLabel(): string
+    {
+        return __('app.trade');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.trades');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return TradeForm::configure($schema);
@@ -43,23 +53,23 @@ class TradeResource extends Resource
         return $schema
             ->columns(1)
             ->components([
-                Section::make('Trade Details')
+                Section::make(__('app.trade_details'))
                     ->columns(2)
                     ->schema([
                         TextEntry::make('stock.name')
-                            ->label('Stock')
+                            ->label(__('app.stock'))
                             ->formatStateUsing(fn ($state, $record) => $record->stock->name . ' (' . $record->stock->code . ')'),
                         TextEntry::make('amount')
-                            ->label('Amount')
+                            ->label(__('app.amount'))
                             ->numeric(decimalPlaces: 0),
                         TextEntry::make('current_total')
-                            ->label('Current Total')
+                            ->label(__('app.current_total'))
                             ->numeric(decimalPlaces: 2),
                         TextEntry::make('total_trades_amount')
-                            ->label('Total Trades Amount')
+                            ->label(__('app.total_trades_amount'))
                             ->numeric(decimalPlaces: 2),
                         TextEntry::make('profit_loss')
-                            ->label('Profit/Loss')
+                            ->label(__('app.profit_loss'))
                             ->numeric(decimalPlaces: 2)
                             ->color(fn (mixed $state): string => match (true) {
                                 $state > 0 => 'success',
@@ -67,7 +77,7 @@ class TradeResource extends Resource
                                 default => 'primary',
                             }),
                         TextEntry::make('status')
-                            ->label('Status')
+                            ->label(__('app.status'))
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'open' => 'success',
@@ -75,10 +85,10 @@ class TradeResource extends Resource
                                 default => 'primary',
                             }),
                         TextEntry::make('created_at')
-                            ->label('Created')
+                            ->label(__('app.created'))
                             ->dateTime('M d, Y h:i a'),
                         TextEntry::make('updated_at')
-                            ->label('Updated')
+                            ->label(__('app.updated'))
                             ->dateTime('M d, Y h:i a'),
                     ]),
             ]);

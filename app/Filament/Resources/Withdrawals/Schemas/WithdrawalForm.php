@@ -18,17 +18,17 @@ class WithdrawalForm
                 Hidden::make('user_id')
                     ->default(Auth::id()),
                 TextInput::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric()
                     ->required()
                     ->prefix('$')
                     ->step(0.01),
                 DatePicker::make('withdrawal_date')
-                    ->label('Withdrawal Date')
+                    ->label(__('app.withdrawal_date'))
                     ->native(false)
                     ->required(),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label(__('app.description'))
                     ->nullable()
                     ->columnSpan('full'),
             ]);

@@ -31,20 +31,20 @@ class DepositWithdrawalStats extends BaseWidget
         }
 
         return [
-            Stat::make('Total Deposits', '$' . number_format($totalDeposits, 2))
-                ->description('Sum of all deposits')
+            Stat::make(__('app.dashboard.total_deposits'), '$' . number_format($totalDeposits, 2))
+                ->description(__('app.dashboard.sum_of_all_deposits'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
-            Stat::make('Total Withdrawals', '$' . number_format($totalWithdrawals, 2))
-                ->description('Sum of all withdrawals')
+            Stat::make(__('app.dashboard.total_withdrawals'), '$' . number_format($totalWithdrawals, 2))
+                ->description(__('app.dashboard.sum_of_all_withdrawals'))
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
-            Stat::make('Balance', '$' . number_format($balance, 2))
-                ->description($profitPercentage . '% profit')
+            Stat::make(__('app.dashboard.balance'), '$' . number_format($balance, 2))
+                ->description(__('app.dashboard.profit_percentage', ['percentage' => $profitPercentage]))
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color($balance >= 0 ? 'success' : 'danger'),
-            Stat::make('Stocks', $totalStocks)
-                ->description('Number of stocks in portfolio')
+            Stat::make(__('app.dashboard.stocks'), $totalStocks)
+                ->description(__('app.dashboard.stocks_in_portfolio'))
                 ->descriptionIcon('heroicon-m-chart-bar-square')
                 ->color('warning'),
         ];

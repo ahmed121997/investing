@@ -14,26 +14,26 @@ class TradeForm
         return $schema
             ->components([
                 Select::make('stock_id')
-                    ->label('Stock')
+                    ->label(__('app.stock'))
                     ->options(Stock::all()->mapWithKeys(fn ($stock) => [$stock->id => "{$stock->name} ({$stock->code})"]))
                     ->required()
                     ->searchable(),
                 TextInput::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric()
                     ->default(0),
                 Select::make('year')
-                    ->label('Year')
+                    ->label(__('app.year'))
                     ->native(false)
                     ->options(fn (): array => self::yearOptions())
                     ->default((int) now()->year)
                     ->required(),
                 Select::make('status')
-                    ->label('Status')
+                    ->label(__('app.status'))
                     ->native(false)
                     ->options([
-                        'open' => 'Open',
-                        'close' => 'Close',
+                        'open' => __('app.open'),
+                        'close' => __('app.close'),
                     ])
                     ->default('open')
                     ->required(),

@@ -7,7 +7,12 @@ use Filament\Widgets\ChartWidget;
 
 class SectorTradesPercentageChart extends ChartWidget
 {
-    protected ?string $heading = 'Open Trade Value by Sector';
+    protected ?string $heading = null;
+
+    public function getHeading(): string
+    {
+        return __('app.dashboard.open_trade_value_by_sector');
+    }
 
     protected function getData(): array
     {
@@ -15,7 +20,7 @@ class SectorTradesPercentageChart extends ChartWidget
             ->join('stocks', 'trades.stock_id', '=', 'stocks.id')
             ->leftJoin('sectors', 'stocks.sector_id', '=', 'sectors.id')
             ->where('trades.status', 'open')
-            ->selectRaw('COALESCE(sectors.name_ar, "No Sector") as sector_name')
+            ->selectRaw('COALESCE(sectors.name_ar, ?) as sector_name', [__('app.dashboard.no_sector')])
             ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->groupBy('sectors.id', 'sectors.name_ar')
             ->orderByDesc('total')
@@ -28,7 +33,7 @@ class SectorTradesPercentageChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Trade Value',
+                    'label' => __('app.dashboard.trade_value'),
                     'data' => $sectorTrades->pluck('total')->map(fn ($total) => (float) $total)->toArray(),
                     'backgroundColor' => $colors,
                     'borderColor' => '#ffffff',

@@ -16,18 +16,18 @@ class WithdrawalsTable
         return $table
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('User')
+                    ->label(__('app.user'))
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->money('USD')
                     ->sortable(),
                 TextColumn::make('withdrawal_date')
-                    ->label('Withdrawal Date')
+                    ->label(__('app.withdrawal_date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label(__('app.description'))
                     ->limit(50),
             ])
             ->filters([

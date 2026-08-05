@@ -1,22 +1,24 @@
 <x-filament-widgets::widget>
     <x-filament::section>
         <x-slot name="heading">
-            Deposits vs Withdrawals (Last 12 Months)
+            {{ __('app.dashboard.deposits_vs_withdrawals') }}
         </x-slot>
 
         <div class="w-full space-y-8">
             <!-- Line Chart -->
             <div>
-                <h3 class="text-lg font-semibold mb-4 text-gray-700">Trend Analysis</h3>
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ __('app.dashboard.trend_analysis') }}</h3>
                 <canvas id="depositWithdrawalLineChart" style="max-height: 300px;"></canvas>
             </div>
 
             <!-- Bar Chart -->
             <div>
-                <h3 class="text-lg font-semibold mb-4 text-gray-700">Monthly Comparison</h3>
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ __('app.dashboard.monthly_comparison') }}</h3>
                 <canvas id="depositWithdrawalBarChart" style="max-height: 300px;"></canvas>
             </div>
         </div>
+
+        @php $depositsLabel = __('app.dashboard.deposits'); $withdrawalsLabel = __('app.dashboard.withdrawals'); @endphp
 
         @push('scripts')
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -33,7 +35,7 @@
                                 labels: data.months,
                                 datasets: [
                                     {
-                                        label: 'Deposits',
+                                        label: @json($depositsLabel),
                                         data: data.deposits,
                                         borderColor: '#22c55e',
                                         backgroundColor: 'rgba(34, 197, 94, 0.1)',
@@ -45,7 +47,7 @@
                                         pointHoverRadius: 7
                                     },
                                     {
-                                        label: 'Withdrawals',
+                                        label: @json($withdrawalsLabel),
                                         data: data.withdrawals,
                                         borderColor: '#ef4444',
                                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -99,7 +101,7 @@
                                 labels: data.months,
                                 datasets: [
                                     {
-                                        label: 'Deposits',
+                                        label: @json($depositsLabel),
                                         data: data.deposits,
                                         backgroundColor: '#22c55e',
                                         borderColor: '#16a34a',
@@ -107,7 +109,7 @@
                                         borderRadius: 4
                                     },
                                     {
-                                        label: 'Withdrawals',
+                                        label: @json($withdrawalsLabel),
                                         data: data.withdrawals,
                                         backgroundColor: '#ef4444',
                                         borderColor: '#dc2626',

@@ -20,25 +20,25 @@ class RunStockPriceUpdateAction
             ->label(fn (): string => self::labelWithLastRunDateTime())
             ->icon('heroicon-o-arrow-path')
             ->color('info')
-            ->modalHeading('Run stock price update')
-            ->modalDescription('Runs the stocks:update-prices command and shows the command output while it runs.')
-            ->modalSubmitActionLabel('Run command')
+            ->modalHeading(__('app.run_stock_price_update'))
+            ->modalDescription(__('app.run_stock_price_update_description'))
+            ->modalSubmitActionLabel(__('app.run_command_button'))
             ->form([
                 Select::make('provider')
-                    ->label('Provider')
+                    ->label(__('app.provider'))
                     ->options([
-                        'tradingview' => 'TradingView',
-                        'mubasher' => 'Mubasher',
-                        'stooq' => 'Stooq',
+                        'tradingview' => __('app.tradingview'),
+                        'mubasher' => __('app.mubasher'),
+                        'stooq' => __('app.stooq'),
                     ])
                     ->default('tradingview')
                     ->required()
                     ->native(false),
                 TextInput::make('market')
-                    ->label('Market')
-                    ->placeholder('Optional market filter'),
+                    ->label(__('app.market'))
+                    ->placeholder(__('app.market_filter_placeholder')),
                 Select::make('codes')
-                    ->label('Stock codes')
+                    ->label(__('app.stock_codes'))
                     ->options(fn () => Stock::query()
                         ->orderBy('code')
                         ->pluck('code', 'code')
@@ -47,14 +47,14 @@ class RunStockPriceUpdateAction
                     ->searchable()
                     ->preload(),
                 TextInput::make('delay')
-                    ->label('Delay between requests (ms)')
+                    ->label(__('app.delay_between_requests'))
                     ->numeric()
                     ->default(250)
                     ->minValue(0)
                     ->required(),
                 Toggle::make('dry_run')
-                    ->label('Dry run')
-                    ->helperText('Fetch and show prices without saving them.'),
+                    ->label(__('app.dry_run'))
+                    ->helperText(__('app.dry_run_helper')),
             ])
             ->action(
                 function (array $data, ListTrades $livewire): void {
@@ -68,10 +68,10 @@ class RunStockPriceUpdateAction
         $lastRunDateTime = self::lastRunDateTime();
 
         if ($lastRunDateTime === null) {
-            return 'Run Command';
+            return __('app.run_command');
         }
 
-        return "Run Command ({$lastRunDateTime})";
+        return __('app.run_command_with_time', ['time' => $lastRunDateTime]);
     }
 
     private static function lastRunDateTime(): ?string

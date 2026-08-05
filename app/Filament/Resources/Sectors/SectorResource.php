@@ -26,6 +26,17 @@ class SectorResource extends Resource
     {
         return __('app.sectors');
     }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.sector');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.sectors');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SectorForm::configure($schema);

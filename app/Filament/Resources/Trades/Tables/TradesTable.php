@@ -27,11 +27,11 @@ class TradesTable
             ->columns([
                 ViewColumn::make('stock.name')
                     ->view('filament.resources.trades.tables.stock-name-column')
-                    ->label('Stock')
+                    ->label(__('app.stock'))
                     ->sortable()
                     ->searchable(['name', 'code']),
                 TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric(decimalPlaces: 0)
                     ->sortable(),
                 TextColumn::make('current_total')
@@ -41,14 +41,14 @@ class TradesTable
                         .e($record->stock?->price)
                         .'</span>)',
                     ))->html()
-                    ->label('Current Total'),
+                    ->label(__('app.current_total')),
                 TextColumn::make('total_trades_amount')
-                    ->label('Trades Amount')
+                    ->label(__('app.trades_amount'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query
                         ->orderByRaw(self::totalTradesAmountExpression()." {$direction}")),
                 TextColumn::make('profit_loss')
-                    ->label('Profit/Loss')
+                    ->label(__('app.profit_loss'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query
                         ->orderByRaw(self::profitLossExpression()." {$direction}"))
@@ -58,7 +58,7 @@ class TradesTable
                         default => 'primary',
                     }),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('app.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'open' => 'success',
@@ -66,7 +66,7 @@ class TradesTable
                     })
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label(__('app.created'))
                     ->dateTime('M d, Y')
                     ->sortable(),
             ])
@@ -78,19 +78,19 @@ class TradesTable
                     ->native(false)
                     ->default('open')
                     ->options([
-                        'open' => 'Open',
-                        'close' => 'Close',
+                        'open' => __('app.open'),
+                        'close' => __('app.close'),
                     ]),
                 SelectFilter::make('year')
-                    ->label('Year')
+                    ->label(__('app.year'))
                     ->native(false)
                     ->options(fn (): array => self::yearOptions()),
                 SelectFilter::make('profit_loss_status')
-                    ->label('Result')
+                    ->label(__('app.result'))
                     ->native(false)
                     ->options([
-                        'win' => 'Win',
-                        'loss' => 'Loss',
+                        'win' => __('app.win'),
+                        'loss' => __('app.loss'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         $value = $data['value'] ?? null;
@@ -104,34 +104,34 @@ class TradesTable
             ])
             ->recordActions([
                 Action::make('addTradeTrack')
-                    ->label('Add')
-                    ->modalHeading(fn (Trade $record): string => 'Add Track - '.$record->stock?->code)
+                    ->label(__('app.add_track'))
+                    ->modalHeading(fn (Trade $record): string => __('app.add_track_for', ['code' => $record->stock?->code]))
                     ->icon('heroicon-o-plus')
                     ->color('success')
                     ->form([
                         TextInput::make('amount')
-                            ->label('Amount')
+                            ->label(__('app.amount'))
                             ->numeric()
                             ->required()
                             ->step(0.01),
                         DateTimePicker::make('date')
-                            ->label('Date')
+                            ->label(__('app.date'))
                             ->default(now())
                             ->required(),
                         Select::make('type')
-                            ->label('Type')
+                            ->label(__('app.type'))
                             ->native(false)
                             ->options([
-                                'buy' => 'Buy',
-                                'sell' => 'Sell',
-                                'profit' => 'Profit',
+                                'buy' => __('app.buy'),
+                                'sell' => __('app.sell'),
+                                'profit' => __('app.profit'),
                             ]),
                     ])
                     ->action(function ($record, array $data) {
                         $record->tradeTracks()->create($data);
 
                         Notification::make()
-                            ->title('Trade track created successfully')
+                            ->title(__('app.trade_track_created_success'))
                             ->success()
                             ->send();
                     }),

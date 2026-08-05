@@ -27,6 +27,16 @@ class DepositResource extends Resource
         return __('app.deposits');
     }
 
+    public static function getModelLabel(): string
+    {
+        return __('app.deposit');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.deposits');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return DepositForm::configure($schema);

@@ -23,21 +23,21 @@ class ListTrades extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->icon('heroicon-o-plus')->label('Trade'),
+            CreateAction::make()->icon('heroicon-o-plus')->label(__('app.trade')),
             RunStockPriceUpdateAction::make(),
             StockPriceUpdateDetailsAction::make(),
             Action::make('updateStockPrice')
-                ->label('Update Stock Price')
+                ->label(__('app.update_stock_price'))
                 ->icon('heroicon-o-currency-dollar')
                 ->color('success')
                 ->form([
                     Select::make('stock_id')
-                        ->label('Stock')
+                        ->label(__('app.stock'))
                         ->options(Stock::all()->mapWithKeys(fn ($stock) => [$stock->id => "{$stock->name} ({$stock->code})"]))
                         ->required()
                         ->searchable(),
                     TextInput::make('price')
-                        ->label('New Price')
+                        ->label(__('app.new_price'))
                         ->numeric()
                         ->required()
                         ->step(0.001),
@@ -47,7 +47,7 @@ class ListTrades extends ListRecords
                     $stock->update(['price' => $data['price']]);
 
                     Notification::make()
-                        ->title('Stock price updated successfully')
+                        ->title(__('app.stock_price_updated_success'))
                         ->success()
                         ->send();
                 }),

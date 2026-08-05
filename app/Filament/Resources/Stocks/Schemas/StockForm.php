@@ -14,26 +14,26 @@ class StockForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('app.name'))
                     ->required()
                     ->maxLength(255),
                 TextInput::make('code')
-                    ->label('Code')
+                    ->label(__('app.code'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 TextInput::make('market')
-                    ->label('Market')
+                    ->label(__('app.market'))
                     ->default('EGX')
                     ->required()
                     ->maxLength(255),
                 TextInput::make('price')
-                    ->label('Price')
+                    ->label(__('app.price'))
                     ->numeric()
                     ->required()
                     ->step(0.001),
                 Select::make('sector_id')
-                    ->label('Sector')
+                    ->label(__('app.sector'))
                     ->options(Sector::pluck('name_ar', 'id'))
                     ->searchable()
                     ->preload(),

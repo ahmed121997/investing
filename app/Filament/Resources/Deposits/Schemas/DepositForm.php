@@ -18,17 +18,17 @@ class DepositForm
                 Hidden::make('user_id')
                     ->default(Auth::id()),
                 TextInput::make('amount')
-                    ->label('Amount')
+                    ->label(__('app.amount'))
                     ->numeric()
                     ->required()
                     ->prefix('$')
                     ->step(0.01),
                 DatePicker::make('deposit_date')
-                    ->label('Deposit Date')
+                    ->label(__('app.deposit_date'))
                     ->native(false)
                     ->required(),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label(__('app.description'))
                     ->nullable()
                     ->columnSpan('full'),
             ]);

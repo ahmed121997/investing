@@ -12,7 +12,12 @@ class WalletStats extends Widget
 {
     protected string $view = 'filament.widgets.wallet-stats';
 
-    protected ?string $heading = 'Wallet';
+    protected ?string $heading = null;
+
+    public function getHeading(): string
+    {
+        return __('app.dashboard.wallet');
+    }
 
     protected int | string | array $columnSpan = 'full';
 
@@ -41,7 +46,7 @@ class WalletStats extends Widget
         ]);
 
         Notification::make()
-            ->title('Wallet updated successfully')
+            ->title(__('app.dashboard.wallet_updated'))
             ->success()
             ->send();
     }

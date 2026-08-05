@@ -13,15 +13,15 @@ class SectorsTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Name (English)')
+                    ->label(__('app.name_en'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('name_ar')
-                    ->label('Name (Arabic)')
+                    ->label(__('app.name_ar'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('stocks_count')
-                    ->label('Number of Stocks')
+                    ->label(__('app.number_of_stocks'))
                     ->counts('stocks')
                     ->sortable(),
             ])

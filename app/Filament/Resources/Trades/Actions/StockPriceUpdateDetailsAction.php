@@ -12,14 +12,14 @@ class StockPriceUpdateDetailsAction
     public static function make(): Action
     {
         return Action::make('stockPriceUpdateDetails')
-            ->label('Price Update Details')
+            ->label(__('app.price_update_details'))
             ->hidden(fn (ListTrades $livewire): bool => $livewire->stockPriceUpdateResult === null)
-            ->modalHeading('Stock price update details')
+            ->modalHeading(__('app.stock_price_update_details'))
             ->modalSubmitAction(false)
-            ->modalCancelActionLabel('Close')
+            ->modalCancelActionLabel(__('app.close'))
             ->extraModalFooterActions([
                 Action::make('closeAndReloadStockPriceUpdateDetails')
-                    ->label('Close and reload')
+                    ->label(__('app.close_and_reload'))
                     ->icon('heroicon-o-arrow-path')
                     ->color('gray')
                     ->action(fn (ListTrades $livewire) => $livewire->redirect(TradeResource::getUrl('index'), navigate: false)),

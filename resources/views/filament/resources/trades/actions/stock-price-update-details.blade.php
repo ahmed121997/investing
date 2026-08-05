@@ -12,13 +12,13 @@
     ])>
         <span style="display: inline-block">
             @if ($result['running'] ?? false)
-                Running...
+                {{ __('app.running') }}
             @elseif ($result['stopped'] ?? false)
-                Stopped by user.
+                {{ __('app.stopped_by_user') }}
             @elseif (($result['exitCode'] ?? 1) === 0)
-                Finished successfully.
+                {{ __('app.finished_successfully') }}
             @else
-                Finished with errors.
+                {{ __('app.finished_with_errors') }}
             @endif
         </span>
 
@@ -32,29 +32,29 @@
                 wire:loading.attr="disabled"
                 wire:target="stopStockPriceUpdate"
             >
-                Stop command
+                {{ __('app.stop_command') }}
             </x-filament::button>
         @endif
     </div>
 
     <dl class="grid gap-3 text-sm sm:grid-cols-2">
         <div>
-            <dt class="font-medium text-gray-500 dark:text-gray-400">Started</dt>
+            <dt class="font-medium text-gray-500 dark:text-gray-400">{{ __('app.started') }}</dt>
             <dd class="mt-1 break-words text-gray-950 dark:text-white">{{ $result['startedAt'] ?? '-' }}</dd>
         </div>
 
         <div>
-            <dt class="font-medium text-gray-500 dark:text-gray-400">Finished</dt>
-            <dd class="mt-1 break-words text-gray-950 dark:text-white">{{ $result['finishedAt'] ?? 'Still running' }}</dd>
+            <dt class="font-medium text-gray-500 dark:text-gray-400">{{ __('app.finished') }}</dt>
+            <dd class="mt-1 break-words text-gray-950 dark:text-white">{{ $result['finishedAt'] ?? __('app.still_running') }}</dd>
         </div>
 
         <div>
-            <dt class="font-medium text-gray-500 dark:text-gray-400">Exit code</dt>
-            <dd class="mt-1 break-words text-gray-950 dark:text-white">{{ $result['exitCode'] ?? 'Pending' }}</dd>
+            <dt class="font-medium text-gray-500 dark:text-gray-400">{{ __('app.exit_code') }}</dt>
+            <dd class="mt-1 break-words text-gray-950 dark:text-white">{{ $result['exitCode'] ?? __('app.pending') }}</dd>
         </div>
 
         <div>
-            <dt class="font-medium text-gray-500 dark:text-gray-400">Command</dt>
+            <dt class="font-medium text-gray-500 dark:text-gray-400">{{ __('app.command') }}</dt>
             <dd class="mt-1 break-words font-mono text-xs text-gray-950 dark:text-white [overflow-wrap:anywhere]">
                 {{ $result['command'] ?? 'php artisan stocks:update-prices' }}
             </dd>
@@ -62,7 +62,7 @@
     </dl>
 
     <div>
-        <div class="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">Output</div>
-        <pre class="max-h-80 max-w-full overflow-auto rounded-lg bg-gray-950 p-3 text-xs leading-6 whitespace-pre-wrap break-words text-gray-100 sm:max-h-96 sm:p-4 [overflow-wrap:anywhere]">{{ $result['output'] ?? 'No output available.' }}</pre>
+        <div class="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('app.output') }}</div>
+        <pre class="max-h-80 max-w-full overflow-auto rounded-lg bg-gray-950 p-3 text-xs leading-6 whitespace-pre-wrap break-words text-gray-100 sm:max-h-96 sm:p-4 [overflow-wrap:anywhere]">{{ $result['output'] ?? __('app.no_output_available') }}</pre>
     </div>
 </div>

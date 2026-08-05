@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources\Withdrawals;
 
-use App\Filament\Resources\Withdrawals\Pages\CreateWithdrawal;
-use App\Filament\Resources\Withdrawals\Pages\EditWithdrawal;
 use App\Filament\Resources\Withdrawals\Pages\ListWithdrawals;
 use App\Filament\Resources\Withdrawals\Schemas\WithdrawalForm;
 use App\Filament\Resources\Withdrawals\Tables\WithdrawalsTable;
@@ -29,6 +27,15 @@ class WithdrawalResource extends Resource
         return __('app.withdrawals');
     }
 
+    public static function getModelLabel(): string
+    {
+        return __('app.withdrawal');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.withdrawals');
+    }
 
     public static function form(Schema $schema): Schema
     {

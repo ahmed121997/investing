@@ -26,10 +26,16 @@ class StockResource extends Resource
         return __('app.stocks');
     }
 
-    public static function getPluralModelLabel(): string
+    public static function getModelLabel(): string
     {
         return __('app.stock');
     }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.stocks');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return StockForm::configure($schema);

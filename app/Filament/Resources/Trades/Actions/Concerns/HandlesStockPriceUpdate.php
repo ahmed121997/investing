@@ -71,7 +71,7 @@ trait HandlesStockPriceUpdate
             ];
 
             Notification::make()
-                ->title('Stock price update started')
+                ->title(__('app.stock_price_update_started'))
                 ->info()
                 ->send();
         } catch (Throwable $exception) {
@@ -86,7 +86,7 @@ trait HandlesStockPriceUpdate
             ];
 
             Notification::make()
-                ->title('Stock price update could not start')
+                ->title(__('app.stock_price_update_could_not_start'))
                 ->danger()
                 ->send();
         }
@@ -117,7 +117,7 @@ trait HandlesStockPriceUpdate
         $this->stockPriceUpdateResult['running'] = false;
 
         Notification::make()
-            ->title($exitCode === 0 ? 'Stock price update finished' : 'Stock price update finished with errors')
+            ->title($exitCode === 0 ? __('app.stock_price_update_finished') : __('app.stock_price_update_finished_with_errors'))
             ->{$exitCode === 0 ? 'success' : 'danger'}()
             ->send();
     }
@@ -157,7 +157,7 @@ trait HandlesStockPriceUpdate
         $this->stockPriceUpdateResult['stopped'] = true;
 
         Notification::make()
-            ->title('Stock price update stopped')
+            ->title(__('app.stock_price_update_stopped'))
             ->warning()
             ->send();
     }

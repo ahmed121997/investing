@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenTradesPercentageChart extends ChartWidget
 {
-    protected ?string $heading = 'Wallet Allocation';
+    protected ?string $heading = null;
+
+    public function getHeading(): string
+    {
+        return __('app.dashboard.wallet_allocation');
+    }
 
     protected function getData(): array
     {
@@ -42,13 +47,13 @@ class OpenTradesPercentageChart extends ChartWidget
 
         if ($liquidityTotal > 0) {
             $data[] = $liquidityTotal;
-            $labels[] = 'Liquidity (' . round(($liquidityTotal / $walletTotal) * 100, 1) . '%)';
+            $labels[] = __('app.dashboard.liquidity_percentage', ['percentage' => round(($liquidityTotal / $walletTotal) * 100, 1)]);
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Wallet',
+                    'label' => __('app.dashboard.wallet'),
                     'data' => $data,
                     'backgroundColor' => $this->getAllocationColors(count($data)),
                     'borderColor' => '#ffffff',

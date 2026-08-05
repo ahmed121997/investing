@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenStocksLiquidityChart extends ChartWidget
 {
-    protected ?string $heading = 'Open Stocks vs Total Liquidity';
+    protected ?string $heading = null;
+
+    public function getHeading(): string
+    {
+        return __('app.dashboard.open_stocks_vs_total_liquidity');
+    }
 
     protected function getData(): array
     {
@@ -30,7 +35,7 @@ class OpenStocksLiquidityChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Wallet Value',
+                    'label' => __('app.dashboard.wallet_value'),
                     'data' => [$openStocksTotal, $liquidityTotal],
                     'backgroundColor' => ['#2563EB', '#16A34A'],
                     'borderColor' => '#ffffff',
@@ -38,8 +43,8 @@ class OpenStocksLiquidityChart extends ChartWidget
                 ],
             ],
             'labels' => [
-                'Open Stocks (' . $this->percentage($openStocksTotal, $total) . '%)',
-                'Total Liquidity (' . $this->percentage($liquidityTotal, $total) . '%)',
+                __('app.dashboard.open_stocks_percentage', ['percentage' => $this->percentage($openStocksTotal, $total)]),
+                __('app.dashboard.total_liquidity_percentage', ['percentage' => $this->percentage($liquidityTotal, $total)]),
             ],
         ];
     }

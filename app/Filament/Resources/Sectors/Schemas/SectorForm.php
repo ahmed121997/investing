@@ -12,16 +12,16 @@ class SectorForm
     {
         return $schema
             ->schema([
-                Section::make('Sector Information')
+                Section::make(__('app.sector_information'))
                     ->columnSpan('full')
                     ->schema([
                         TextInput::make('name')
-                            ->label('Name (English)')
+                            ->label(__('app.name_en'))
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
                         TextInput::make('name_ar')
-                            ->label('Name (Arabic) - الاسم بالعربية')
+                            ->label(__('app.name_ar'))
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
