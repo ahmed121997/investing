@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class StocksTable
@@ -27,10 +28,10 @@ class StocksTable
                     ->label('Sector')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('market')
-                    ->label('Market')
-                    ->searchable()
-                    ->sortable(),
+                // TextColumn::make('market')
+                //     ->label('Market')
+                //     ->searchable()
+                //     ->sortable(),
                 TextColumn::make('price')
                     ->label('Price')
                     ->sortable(),
@@ -40,7 +41,12 @@ class StocksTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('sector_id')
+                    ->label('Sector')
+                    ->native(false)
+                    ->searchable()
+                    ->preload()
+                    ->relationship('sector', 'name_ar'),
             ])
             ->recordActions([
                 EditAction::make()->iconButton(),

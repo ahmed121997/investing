@@ -3,8 +3,6 @@
 namespace App\Filament\Resources\Sectors;
 
 use App\Filament\Resources\Sectors\Pages\ListSectors;
-use App\Filament\Resources\Sectors\Pages\CreateSector;
-use App\Filament\Resources\Sectors\Pages\EditSector;
 use App\Filament\Resources\Sectors\Schemas\SectorForm;
 use App\Filament\Resources\Sectors\Tables\SectorsTable;
 use App\Models\Sector;

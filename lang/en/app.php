@@ -8,6 +8,7 @@ return [
     'stocks' => 'Stocks',
     'sectors' => 'Sectors',
     'settings' => 'Settings',
+    'stock' => 'Stock',
 
     'stock_fees' => [
         'tools_group' => 'Tools',

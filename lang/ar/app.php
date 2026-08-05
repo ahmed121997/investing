@@ -8,6 +8,7 @@ return [
     'stocks' => 'الأسهم',
     'sectors' => 'القطاعات',
     'settings' => 'الإعدادات',
+    'stock' => 'السهم',
 
     'stock_fees' => [
         'tools_group' => 'الأدوات',

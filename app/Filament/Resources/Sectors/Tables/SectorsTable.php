@@ -20,6 +20,10 @@ class SectorsTable
                     ->label('Name (Arabic)')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('stocks_count')
+                    ->label('Number of Stocks')
+                    ->counts('stocks')
+                    ->sortable(),
             ])
             ->filters([
                 //

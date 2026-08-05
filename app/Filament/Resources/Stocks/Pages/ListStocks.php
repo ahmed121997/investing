@@ -16,4 +16,5 @@ class ListStocks extends ListRecords
             CreateAction::make(),
         ];
     }
+
 }
