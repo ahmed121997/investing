@@ -1,5 +1,18 @@
 <div
     @if ($result['running'] ?? false) wire:poll.2s="refreshStockPriceUpdateResult" @endif
+    x-data
+    x-init="
+        const scrollToBottom = () => {
+            requestAnimationFrame(() => {
+                const pre = $el.querySelector('pre');
+                if (pre) pre.scrollTop = pre.scrollHeight;
+                $el.scrollTop = $el.scrollHeight;
+            });
+        };
+        scrollToBottom();
+        const observer = new MutationObserver(scrollToBottom);
+        observer.observe($el, { childList: true, subtree: true, characterData: true });
+    "
     class="max-w-full space-y-4 overflow-x-hidden pr-0 sm:pr-1"
     style="max-height: min(75dvh, 42rem); overflow-y: auto; overscroll-behavior: contain;"
 >
