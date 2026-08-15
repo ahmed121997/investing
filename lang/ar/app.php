@@ -55,6 +55,7 @@ return [
     'total_trades_amount' => 'إجمالي مبلغ التداولات',
     'profit_loss' => 'الربح/الخسارة',
     'trade_details' => 'تفاصيل الصفقة',
+    'stock_details' => 'تفاصيل السهم',
     'trade' => 'صفقة',
     'new_price' => 'السعر الجديد',
     'update_stock_price' => 'تحديث سعر السهم',

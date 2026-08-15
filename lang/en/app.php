@@ -55,6 +55,7 @@ return [
     'total_trades_amount' => 'Total Trades Amount',
     'profit_loss' => 'Profit/Loss',
     'trade_details' => 'Trade Details',
+    'stock_details' => 'Stock Details',
     'trade' => 'Trade',
     'new_price' => 'New Price',
     'update_stock_price' => 'Update Stock Price',
