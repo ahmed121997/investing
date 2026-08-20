@@ -29,6 +29,8 @@ return [
     'last_updated' => 'Last Updated',
     'created' => 'Created',
     'updated' => 'Updated',
+    'closed_at' => 'Closed At',
+    'days_open' => 'Days Open',
     'status' => 'Status',
     'year' => 'Year',
     'type' => 'Type',

@@ -13,6 +13,7 @@ class Trade extends Model
         'amount', // amount stocks
         'status',
         'year',
+        'closed_at',
     ];
 
     protected $appends = ['current_total', 'total_trades_amount', 'profit_loss'];
@@ -21,6 +22,7 @@ class Trade extends Model
         'amount' => 'double',
         'status' => 'string',
         'year' => 'integer',
+        'closed_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -53,5 +55,14 @@ class Trade extends Model
     public function getProfitLossAttribute()
     {
         return $this->current_total + $this->total_trades_amount;
+    }
+
+    public function getDaysOpenAttribute(): ?int
+    {
+        if (! $this->closed_at) {
+            return null;
+        }
+
+        return (int) $this->closed_at->diffInDays($this->created_at);
     }
 }

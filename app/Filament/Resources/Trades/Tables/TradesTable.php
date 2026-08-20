@@ -75,6 +75,7 @@ class TradesTable
                 ->orderByRaw(self::profitLossExpression().' desc'))
             ->filters([
                 SelectFilter::make('status')
+                    ->label(__('app.status'))
                     ->native(false)
                     ->default('open')
                     ->options([

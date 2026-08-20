@@ -84,6 +84,18 @@ class TradeResource extends Resource
                                 'close' => 'danger',
                                 default => 'primary',
                             }),
+                        TextEntry::make('closed_at')
+                            ->label(__('app.closed_at'))
+                            ->dateTime('M d, Y h:i a')
+                            ->placeholder('-'),
+                        TextEntry::make('days_open')
+                            ->label(__('app.days_open'))
+                            ->placeholder('-'),
+                        TextEntry::make('number_of_trades')
+                            ->label(__('app.number_of_trades'))
+                            ->state(fn ($record) => $record->tradeTracks->count())
+                            ->badge()
+                            ->numeric(decimalPlaces: 0),
                         TextEntry::make('created_at')
                             ->label(__('app.created'))
                             ->dateTime('M d, Y h:i a'),

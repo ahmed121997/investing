@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Trades\Schemas;
 
 use App\Models\Stock;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -37,6 +38,9 @@ class TradeForm
                     ])
                     ->default('open')
                     ->required(),
+                DateTimePicker::make('closed_at')
+                    ->label(__('app.closed_at'))
+                    ->visible(fn ($get) => $get('status') === 'close'),
             ]);
     }
 
