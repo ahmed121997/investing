@@ -25,6 +25,11 @@ class Stock extends Model
         return $this->hasMany(Trade::class);
     }
 
+    public function financialReports(): HasMany
+    {
+        return $this->hasMany(FinancialReport::class);
+    }
+
     public function sector(): BelongsTo
     {
         return $this->belongsTo(Sector::class);
