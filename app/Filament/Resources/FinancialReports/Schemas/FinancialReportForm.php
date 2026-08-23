@@ -23,11 +23,11 @@ class FinancialReportForm
                 Toggle::make('enable_projection')->label(__('financial_reports.enable_projection'))->live(),
                 TextInput::make('projection_multiplier')->label(__('financial_reports.projection_multiplier'))->numeric()->default(2)->minValue(0)->visible(fn ($get) => $get('enable_projection')),
             ]),
-            Section::make(__('financial_reports.periods'))->columns(2)->schema([
+            Section::make(__('financial_reports.periods'))->columns(1)->schema([
                 ...self::periodFields('a', __('financial_reports.current_period')),
                 ...self::periodFields('b', __('financial_reports.base_period')),
             ]),
-            Section::make(__('financial_reports.financial_metrics'))->columns(2)->schema([
+            Section::make(__('financial_reports.financial_metrics'))->columns(1)->schema([
                 ...self::metricFields('revenue'), ...self::metricFields('gross_profit'), ...self::metricFields('net_profit'), ...self::metricFields('eps'),
             ]),
 
