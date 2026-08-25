@@ -39,14 +39,22 @@ class FinancialReport extends Model
         return $base == 0.0 ? null : round(($current / $base) * 100, 2);
     }
 
+    public function growth(string $metric): ?float
+    {
+        $base = (float) $this->getAttribute("{$metric}_b");
+        $current = (float) $this->getAttribute("{$metric}_a");
+
+        return $base == 0.0 ? null : round((($current - $base) / abs($base)) * 100, 2);
+    }
+
     public function projected(string $metric): ?float
     {
         if (! $this->enable_projection || $this->getAttribute("{$metric}_a") === null) return null;
         return round((float) $this->getAttribute("{$metric}_a") * (float) $this->projection_multiplier, 6);
     }
 
-    public function getNetProfitGrowthAttribute(): ?float { return $this->coverage('net_profit'); }
-    public function getEpsGrowthAttribute(): ?float { return $this->coverage('eps'); }
+    public function getNetProfitGrowthAttribute(): ?float { return $this->growth('net_profit'); }
+    public function getEpsGrowthAttribute(): ?float { return $this->growth('eps'); }
 
     public function scopeLatestPerStock(Builder $query): Builder
     {
