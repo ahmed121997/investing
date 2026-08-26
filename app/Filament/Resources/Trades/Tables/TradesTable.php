@@ -122,6 +122,7 @@ class TradesTable
                         Select::make('type')
                             ->label(__('app.type'))
                             ->native(false)
+                            ->required()
                             ->options([
                                 'buy' => __('app.buy'),
                                 'sell' => __('app.sell'),

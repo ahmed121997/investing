@@ -100,7 +100,7 @@ return [
     'no_output_available' => 'لا يوجد ناتج متاح.',
     'trade_track' => 'تتبع الصفقة',
     'trade_tracks' => 'تتبعات الصفقات',
-
+    'number_of_trades' => 'عدد الصفقات',
     'dashboard' => [
         'wallet' => 'المحفظة',
         'wallet_updated' => 'تم تحديث المحفظة بنجاح',

@@ -100,6 +100,7 @@ return [
     'no_output_available' => 'No output available.',
     'trade_track' => 'Trade Track',
     'trade_tracks' => 'Trade Tracks',
+    'number_of_trades' => 'Number of Trades',
 
     'dashboard' => [
         'wallet' => 'Wallet',
