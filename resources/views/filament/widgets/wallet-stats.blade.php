@@ -59,10 +59,7 @@
         </form>
 
         <x-filament::section class="min-w-0 h-full w-full" style="min-width: 0; width: 100%; height: 100%;">
-            <div
-                class="flex h-full min-h-24 min-w-0 flex-col items-center justify-center text-center"
-                style="display: flex; min-height: 6rem; height: 100%; flex-direction: column; align-items: center; justify-content: center; text-align: center;"
-            >
+            <div class="flex h-full min-h-24 min-w-0 flex-col items-center justify-center text-center" style="display: flex; min-height: 6rem; height: 100%; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                 <div class="text-sm font-medium text-primary-700 dark:text-primary-300">{{ __('app.dashboard.wallet_total') }}</div>
                 <div class="mt-2 max-w-full  text-3xl font-bolder leading-tight text-primary-950 dark:text-primary-100 sm:text-3xl" style="margin-top: 1rem; font-weight: 700; overflow-wrap: anywhere;">
                     ${{ $this->formatMoney($this->walletTotal()) }}

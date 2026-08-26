@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('cash_change', 15, 2);
             $table->decimal('cash_before', 15, 2);
             $table->decimal('cash_after', 15, 2);
+            $table->decimal('save_cloud_before', 15, 2)->nullable();
+            $table->decimal('save_cloud_after', 15, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class WalletStats extends Widget
         return __('app.dashboard.wallet');
     }
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public ?float $cash = 0;
 

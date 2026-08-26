@@ -17,6 +17,8 @@ class WalletLog extends Model
         'cash_change',
         'cash_before',
         'cash_after',
+        'save_cloud_before',
+        'save_cloud_after',
     ];
 
     protected $casts = [
@@ -24,6 +26,8 @@ class WalletLog extends Model
         'cash_change' => 'decimal:2',
         'cash_before' => 'decimal:2',
         'cash_after' => 'decimal:2',
+        'save_cloud_before' => 'decimal:2',
+        'save_cloud_after' => 'decimal:2',
     ];
 
     public function wallet(): BelongsTo
