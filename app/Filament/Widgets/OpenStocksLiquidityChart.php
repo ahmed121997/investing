@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenStocksLiquidityChart extends ChartWidget
 {
+
     protected ?string $heading = null;
 
     public function getHeading(): string

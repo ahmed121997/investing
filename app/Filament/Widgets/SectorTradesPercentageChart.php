@@ -7,6 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class SectorTradesPercentageChart extends ChartWidget
 {
+
     protected ?string $heading = null;
 
     public function getHeading(): string

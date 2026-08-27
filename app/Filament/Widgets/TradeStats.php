@@ -56,10 +56,10 @@ class TradeStats extends BaseWidget
                 ->description(__('app.dashboard.trades_currently_closed'))
                 ->descriptionIcon('heroicon-m-lock-closed')
                 ->color('gray'),
-            Stat::make(__('app.dashboard.sectors'), $totalSectors)
-                ->description(__('app.dashboard.total_market_sectors'))
-                ->descriptionIcon('heroicon-m-building-office-2')
-                ->color('warning'),
+            // Stat::make(__('app.dashboard.sectors'), $totalSectors)
+            //     ->description(__('app.dashboard.total_market_sectors'))
+            //     ->descriptionIcon('heroicon-m-building-office-2')
+            //     ->color('warning'),
             Stat::make(__('app.dashboard.win_trades'), (int) ($profitLossCounts->winning_trades ?? 0))
                 ->description(__('app.dashboard.trades_with_profit'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
@@ -68,9 +68,9 @@ class TradeStats extends BaseWidget
                 ->description(__('app.dashboard.trades_with_loss'))
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
-            Stat::make(__('app.dashboard.draw_trades'), $totalTrades - (int) ($profitLossCounts->winning_trades ?? 0) - (int) ($profitLossCounts->losing_trades ?? 0))
-                ->descriptionIcon('heroicon-m-chart-bar-square')
-                ->color('warning'),
+            // Stat::make(__('app.dashboard.draw_trades'), $totalTrades - (int) ($profitLossCounts->winning_trades ?? 0) - (int) ($profitLossCounts->losing_trades ?? 0))
+            //     ->descriptionIcon('heroicon-m-chart-bar-square')
+            //     ->color('warning'),
 
             Stat::make(__('app.dashboard.total_profit_loss'), number_format($totalProfitLoss, 2))
                 ->description($totalProfitLoss >= 0 ? __('app.dashboard.total_portfolio_profit') : __('app.dashboard.total_portfolio_loss'))
