@@ -88,6 +88,7 @@ class TradeTracksRelationManager extends RelationManager
 
                 TextColumn::make('type')
                     ->label(__('app.type'))
+                    ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-')
                     ->sortable(),
             ])
             ->filters([

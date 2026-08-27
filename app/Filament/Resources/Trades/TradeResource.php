@@ -78,6 +78,8 @@ class TradeResource extends Resource
                             }),
                         TextEntry::make('status')
                             ->label(__('app.status'))
+                            ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-')
+                            ->placeholder('-')
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'open' => 'success',
