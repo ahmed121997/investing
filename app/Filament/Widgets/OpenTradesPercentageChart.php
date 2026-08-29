@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenTradesPercentageChart extends ChartWidget
 {
-    protected int | string | array $columnSpan = ['default' => 'full', 'lg' => 4];
+    //protected int | string | array $columnSpan = ['default' => 'full', 'lg' => 4];
 
     protected ?string $heading = null;
 

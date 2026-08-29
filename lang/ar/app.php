@@ -35,6 +35,7 @@ return [
     'days_open' => 'عدد الأيام',
     'status' => 'الحالة',
     'year' => 'السنة',
+    'all' => 'الكل',
     'type' => 'النوع',
     'action' => 'الإجراء',
     'cash_change' => 'تغير النقدية',
@@ -159,6 +160,7 @@ return [
         'total_portfolio_loss' => 'إجمالي خسارة المحفظة',
 
         'open_stocks_vs_total_liquidity' => 'الأسهم المفتوحة مقابل إجمالي السيولة',
+        'top_profit_stocks' => 'أعلى الأسهم ربحًا',
         'wallet_value' => 'قيمة المحفظة',
         'open_stocks_percentage' => 'الأسهم المفتوحة (:percentage%)',
         'total_liquidity_percentage' => 'إجمالي السيولة (:percentage%)',
@@ -173,6 +175,7 @@ return [
         'monthly_comparison' => 'المقارنة الشهرية',
         'deposits' => 'الإيداعات',
         'withdrawals' => 'السحوبات',
+        'all' => 'الكل',
     ],
 
     'stock_fees' => [

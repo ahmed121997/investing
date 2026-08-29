@@ -35,6 +35,7 @@ return [
     'days_open' => 'Days Open',
     'status' => 'Status',
     'year' => 'Year',
+    'all' => 'All',
     'type' => 'Type',
     'action' => 'Action',
     'cash_change' => 'Cash Change',
@@ -160,6 +161,7 @@ return [
         'total_portfolio_loss' => 'Total portfolio loss',
 
         'open_stocks_vs_total_liquidity' => 'Open Stocks vs Total Liquidity',
+        'top_profit_stocks' => 'Top Profit Stocks',
         'wallet_value' => 'Wallet Value',
         'open_stocks_percentage' => 'Open Stocks (:percentage%)',
         'total_liquidity_percentage' => 'Total Liquidity (:percentage%)',
