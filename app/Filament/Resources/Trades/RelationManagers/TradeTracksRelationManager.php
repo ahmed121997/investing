@@ -11,6 +11,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -19,6 +20,7 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 
 class TradeTracksRelationManager extends RelationManager
 {
@@ -133,7 +135,21 @@ class TradeTracksRelationManager extends RelationManager
                     ->badge()
                     ->color('success')
                     ->disabled(),
-                CreateAction::make(),
+                CreateAction::make()
+                    ->action(function (array $data): void {
+                        try {
+                            $this->getRelationship()->create($data);
+                        } catch (ValidationException $exception) {
+                            $message = collect($exception->errors())->flatten(1)->first() ?? __('app.invalid_trade_track_type');
+
+                            Notification::make()
+                                ->title($message)
+                                ->danger()
+                                ->send();
+
+                            throw $exception;
+                        }
+                    }),
             ])
             ->recordActions([
                 EditAction::make()->iconButton(),

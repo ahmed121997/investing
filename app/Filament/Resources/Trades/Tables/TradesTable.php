@@ -18,6 +18,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
+use Illuminate\Validation\ValidationException;
 
 class TradesTable
 {
@@ -130,12 +131,23 @@ class TradesTable
                             ]),
                     ])
                     ->action(function ($record, array $data) {
-                        $record->tradeTracks()->create($data);
+                        try {
+                            $record->tradeTracks()->create($data);
 
-                        Notification::make()
-                            ->title(__('app.trade_track_created_success'))
-                            ->success()
-                            ->send();
+                            Notification::make()
+                                ->title(__('app.trade_track_created_success'))
+                                ->success()
+                                ->send();
+                        } catch (ValidationException $exception) {
+                            $message = collect($exception->errors())->flatten(1)->first() ?? __('app.invalid_trade_track_type');
+
+                            Notification::make()
+                                ->title($message)
+                                ->danger()
+                                ->send();
+
+                            throw $exception;
+                        }
                     }),
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),

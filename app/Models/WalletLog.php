@@ -34,4 +34,16 @@ class WalletLog extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
+
+    public function tradeTrack(): BelongsTo
+    {
+        return $this->belongsTo(TradeTrack::class);
+    }
+
+    // get stock code from tradeTrack relation
+    public function getStockCodeAttribute(): ?string
+    {
+        return $this->tradeTrack?->trade?->stock?->code;
+    }
+
 }

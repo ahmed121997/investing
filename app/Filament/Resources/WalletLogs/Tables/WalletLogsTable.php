@@ -78,6 +78,8 @@ class WalletLogsTable
                     ->html(),
                 TextColumn::make('trade_track_id')
                     ->label(__('app.trade_track'))
+                    ->formatStateUsing(fn ($record): string => $record->getStockCodeAttribute() ?? '-')
+                    ->sortable()
                     ->placeholder('-'),
             ])
             ->filters([
