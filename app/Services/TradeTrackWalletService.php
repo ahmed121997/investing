@@ -53,8 +53,7 @@ class TradeTrackWalletService
         $amountInCents = (int) round(((float) $tradeTrack->amount) * 100);
 
         return match ($tradeTrack->type) {
-            'buy' => -$amountInCents,
-            'sell', 'profit' => $amountInCents,
+            'buy', 'sell', 'profit' => $amountInCents,
             default => throw ValidationException::withMessages([
                 'type' => [__('app.invalid_trade_track_type')],
             ]),
