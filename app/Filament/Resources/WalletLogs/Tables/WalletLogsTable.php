@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\WalletLogs\Tables;
 
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -16,7 +17,8 @@ class WalletLogsTable
                 TextColumn::make('created_at')
                     ->label(__('app.date'))
                     ->dateTime(format: 'Y-m-d h:iA')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('action')
                     ->label(__('app.action'))
                     ->badge()
@@ -26,11 +28,13 @@ class WalletLogsTable
                         'updated' => 'warning',
                         'deleted' => 'danger',
                         'transferred' => 'info',
-                    }),
+                    })
+                    ->alignment(Alignment::Center),
                 TextColumn::make('transaction_type')
                     ->label(__('app.type'))
                     ->badge()
-                    ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-'),
+                    ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-')
+                    ->alignment(Alignment::Center),
                 TextColumn::make('amount')
                     ->label(__('app.amount').' / '.__('app.cash_change'))
                     ->formatStateUsing(function ($state, $record): string {
@@ -43,7 +47,7 @@ class WalletLogsTable
                         $changePrefix = $cashChange > 0 ? '+' : '';
 
                         return sprintf(
-                            '<div class="flex flex-wrap items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400">%s</span><span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-inset %s">%s%s</span></div>',
+                            '<div class="flex flex-wrap items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span><span class="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-inset %s" style="min-width: 80px;">%s%s</span></div>',
                             number_format((float) $state, 2),
                             $changeClasses,
                             $changePrefix,
@@ -51,17 +55,18 @@ class WalletLogsTable
                         );
                     })
                     ->html()
-                    ->sortable(),
+                    ->alignment(Alignment::Center),
                 TextColumn::make('cash_before')
                     ->label(__('app.dashboard.total_cash'))
                     ->formatStateUsing(function ($state, $record): string {
                         return sprintf(
-                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400">%s</span></div>',
+                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
                             number_format((float) $state, 2),
                             number_format((float) $record->cash_after, 2),
                         );
                     })
-                    ->html(),
+                    ->html()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('save_cloud_before')
                     ->label(__('app.dashboard.total_save_cloud'))
                     ->formatStateUsing(function ($state, $record): string {
@@ -70,17 +75,19 @@ class WalletLogsTable
                         }
 
                         return sprintf(
-                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400">%s</span></div>',
+                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
                             number_format((float) $state, 2),
                             number_format((float) $record->save_cloud_after, 2),
                         );
                     })
-                    ->html(),
+                    ->html()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('trade_track_id')
                     ->label(__('app.trade_track'))
                     ->formatStateUsing(fn ($record): string => $record->getStockCodeAttribute() ?? '-')
                     ->sortable()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->alignment(Alignment::Center),
             ])
             ->filters([
                 SelectFilter::make('action')

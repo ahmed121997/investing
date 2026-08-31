@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Sectors\Tables;
 
 use Filament\Tables\Table;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -15,15 +16,18 @@ class SectorsTable
                 TextColumn::make('name')
                     ->label(__('app.name_en'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('name_ar')
                     ->label(__('app.name_ar'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('stocks_count')
                     ->label(__('app.number_of_stocks'))
                     ->counts('stocks')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
             ])
             ->filters([
                 //

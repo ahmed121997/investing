@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -17,18 +18,22 @@ class DepositsTable
             ->columns([
                 TextColumn::make('user.name')
                     ->label(__('app.user'))
-                    ->searchable(),
+                    ->searchable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('amount')
                     ->label(__('app.amount'))
                     ->money('USD')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('deposit_date')
                     ->label(__('app.deposit_date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('description')
                     ->label(__('app.description'))
-                    ->limit(50),
+                    ->limit(50)
+                    ->alignment(Alignment::Center),
             ])
             ->filters([
                 //

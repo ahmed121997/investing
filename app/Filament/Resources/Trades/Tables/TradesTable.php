@@ -12,6 +12,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -34,7 +35,8 @@ class TradesTable
                 TextColumn::make('amount')
                     ->label(__('app.amount'))
                     ->numeric(decimalPlaces: 0)
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('current_total')
                     ->formatStateUsing(fn ($state, $record): HtmlString => new HtmlString(
                         e(number_format((float) $state, 2))
@@ -42,12 +44,14 @@ class TradesTable
                         .e($record->stock?->price)
                         .'</span>)',
                     ))->html()
-                    ->label(__('app.current_total')),
+                    ->label(__('app.current_total'))
+                    ->alignment(Alignment::Center),
                 TextColumn::make('total_trades_amount')
                     ->label(__('app.trades_amount'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query
-                        ->orderByRaw(self::totalTradesAmountExpression()." {$direction}")),
+                        ->orderByRaw(self::totalTradesAmountExpression()." {$direction}"))
+                    ->alignment(Alignment::Center),
                 TextColumn::make('profit_loss')
                     ->label(__('app.profit_loss'))
                     ->numeric(decimalPlaces: 2)
@@ -57,7 +61,8 @@ class TradesTable
                         $state > 0 => 'success',
                         $state < 0 => 'danger',
                         default => 'primary',
-                    }),
+                    })
+                    ->alignment(Alignment::Center),
                 TextColumn::make('status')
                     ->label(__('app.status'))
                     ->badge()
@@ -65,11 +70,17 @@ class TradesTable
                         'open' => 'success',
                         'close' => 'danger',
                     })
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center)
+                    ->extraAttributes([
+                        'class' => 'flex justify-center',
+                        'style' => 'min-width: 80px;',
+                    ]),
                 TextColumn::make('created_at')
                     ->label(__('app.created'))
                     ->dateTime('M d, Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
             ])
             ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('stock.sector'))
             ->defaultSort(fn (Builder $query): Builder => $query

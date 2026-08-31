@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -21,26 +22,31 @@ class StocksTable
                 TextColumn::make('name')
                     ->label(__('app.name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('code')
                     ->label(__('app.code'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('sector.name_ar')
                     ->label(__('app.sector'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 // TextColumn::make('market')
                 //     ->label('Market')
                 //     ->searchable()
                 //     ->sortable(),
                 TextColumn::make('price')
                     ->label(__('app.price'))
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
                 TextColumn::make('updated_at')
                     ->label(__('app.last_updated'))
                     ->dateTime('M d, Y h:i a')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignment(Alignment::Center),
             ])
             ->filters([
                 SelectFilter::make('sector_id')
