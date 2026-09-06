@@ -27,7 +27,7 @@ A comprehensive investment tracking system built with Laravel 12 and Filament v5
   - Modal-based create form
   - Modal-based edit form
   - Delete bulk actions
-  - User, Amount (formatted as USD), Deposit Date, and Description columns
+  - User, Amount (formatted as EGP), Deposit Date, and Description columns
 
 ### ✅ Withdrawals Management
 - **Model**: `App\Models\Withdrawal`
@@ -43,7 +43,7 @@ A comprehensive investment tracking system built with Laravel 12 and Filament v5
   - Modal-based create form
   - Modal-based edit form
   - Delete bulk actions
-  - User, Amount (formatted as USD), Withdrawal Date, and Description columns
+  - User, Amount (formatted as EGP), Withdrawal Date, and Description columns
 
 ### ✅ Dashboard with Statistics
 - **Dashboard Widget**: `App\Filament\Widgets\DepositWithdrawalStats`
@@ -165,7 +165,7 @@ php artisan serve
 | Column | Type | Features |
 |--------|------|----------|
 | User | Text | Searchable, links to user |
-| Amount | Money | Formatted as USD, Sortable |
+| Amount | Money | Formatted as EGP, Sortable |
 | Deposit Date | Date | Sortable |
 | Description | Text | Limited to 50 characters |
 
@@ -173,7 +173,7 @@ php artisan serve
 | Column | Type | Features |
 |--------|------|----------|
 | User | Text | Searchable, links to user |
-| Amount | Money | Formatted as USD, Sortable |
+| Amount | Money | Formatted as EGP, Sortable |
 | Withdrawal Date | Date | Sortable |
 | Description | Text | Limited to 50 characters |
 

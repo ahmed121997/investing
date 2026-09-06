@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Trades;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\Trades\Pages\ListTrades;
 use App\Filament\Resources\Trades\Pages\ViewTrade;
 use App\Filament\Resources\Trades\RelationManagers\TradeTracksRelationManager;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TradeResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = Trade::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

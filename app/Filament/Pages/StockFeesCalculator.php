@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\User;
 use App\Services\StockFeesCalculationResult;
 use App\Services\StockFeesCalculatorService;
 use BackedEnum;
@@ -12,6 +13,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 
 class StockFeesCalculator extends Page
 {
@@ -20,6 +22,11 @@ class StockFeesCalculator extends Page
     protected static ?int $navigationSort = 1;
 
     protected string $view = 'filament.pages.stock-fees-calculator';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return ! User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+    }
 
     public static function getNavigationLabel(): string
     {

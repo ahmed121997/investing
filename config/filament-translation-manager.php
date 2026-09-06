@@ -7,7 +7,7 @@ return [
         'en',
         'ar',
     ],
-    'gate' => null,
+    'gate' => 'manage-translations',
     'ignore_groups' => [],
     'navigation_sort' => 90,
     'navigation_group' => 'app.settings',

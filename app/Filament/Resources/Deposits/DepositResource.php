@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Deposits;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\Deposits\Pages\ListDeposits;
 use App\Filament\Resources\Deposits\Schemas\DepositForm;
 use App\Filament\Resources\Deposits\Tables\DepositsTable;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DepositResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = Deposit::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-up-circle';

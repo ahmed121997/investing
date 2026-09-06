@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\FinancialReports;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\FinancialReports\Pages\CreateFinancialReport;
 use App\Filament\Resources\FinancialReports\Pages\EditFinancialReport;
 use App\Filament\Resources\FinancialReports\Pages\ListFinancialReports;
@@ -16,6 +17,7 @@ use Filament\Tables\Table;
 
 class FinancialReportResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = FinancialReport::class;
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar-square';
 

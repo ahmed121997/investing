@@ -16,13 +16,9 @@ class DepositsTable
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label(__('app.user'))
-                    ->searchable()
-                    ->alignment(Alignment::Center),
                 TextColumn::make('amount')
                     ->label(__('app.amount'))
-                    ->money('USD')
+                    ->money('EGP')
                     ->sortable()
                     ->alignment(Alignment::Center),
                 TextColumn::make('deposit_date')

@@ -67,7 +67,7 @@ Press `Ctrl+C` in the terminal where the server is running.
 
 - **Table Columns**:
   - **User**: Name of the person who made the deposit
-  - **Amount**: Formatted as USD ($5,000.00)
+  - **Amount**: Formatted as EGP ($5,000.00)
   - **Deposit Date**: When the deposit was made
   - **Description**: Notes or purpose of deposit
 
@@ -90,7 +90,7 @@ Press `Ctrl+C` in the terminal where the server is running.
 
 - **Table Columns**:
   - **User**: Name of the person who made the withdrawal
-  - **Amount**: Formatted as USD ($1,500.00)
+  - **Amount**: Formatted as EGP ($1,500.00)
   - **Withdrawal Date**: When the withdrawal was made
   - **Description**: Notes or purpose of withdrawal
 
@@ -202,7 +202,7 @@ withdrawals
 - 🔒 Prevents accidental data entry mistakes
 
 ### Currency Formatting
-- 💵 All amounts automatically formatted as USD
+- 💵 All amounts automatically formatted as EGP
 - 📝 Enter amounts as numbers (e.g., `1000.50`)
 - ✅ System handles formatting automatically
 

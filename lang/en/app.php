@@ -29,6 +29,8 @@ return [
     'user_role' => 'User',
     'admin_role' => 'Administrator',
     'active' => 'Active',
+    'login_as' => 'Login as',
+    'stop_impersonating' => 'Return to admin',
     'active_users' => 'Active users',
     'admin_overview' => 'Accounts overview',
     'all_accounts' => 'All accounts',

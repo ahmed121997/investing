@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Withdrawals;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\Withdrawals\Pages\ListWithdrawals;
 use App\Filament\Resources\Withdrawals\Schemas\WithdrawalForm;
 use App\Filament\Resources\Withdrawals\Tables\WithdrawalsTable;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WithdrawalResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = Withdrawal::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-down-circle';

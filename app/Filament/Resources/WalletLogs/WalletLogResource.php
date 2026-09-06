@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\WalletLogs;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\WalletLogs\Pages\ListWalletLogs;
 use App\Filament\Resources\WalletLogs\Tables\WalletLogsTable;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WalletLogResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = WalletLog::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';

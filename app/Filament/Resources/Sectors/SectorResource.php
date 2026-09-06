@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Sectors;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\Sectors\Pages\ListSectors;
 use App\Filament\Resources\Sectors\Schemas\SectorForm;
 use App\Filament\Resources\Sectors\Tables\SectorsTable;
@@ -13,6 +14,7 @@ use Filament\Tables\Table;
 
 class SectorResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = Sector::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-tag';

@@ -3,12 +3,14 @@
 namespace App\Filament\Resources\Users\Tables;
 
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UsersTable
 {
@@ -38,6 +40,23 @@ class UsersTable
                     ->sortable(),
             ])
             ->recordActions([
+                Action::make('loginAs')
+                    ->label(__('app.login_as'))
+                    ->icon('heroicon-o-arrow-right-start-on-rectangle')
+                    ->requiresConfirmation()
+                    ->visible(fn (User $record): bool => $record->is_active && ! $record->isCurrentUser())
+                    ->action(function (User $record) {
+                        $adminId = Auth::id();
+                        $guard = Auth::guard('web');
+
+                        $guard->login($record);
+                        session()->put([
+                            'impersonating_admin_id' => $adminId,
+                            'password_hash_web' => $record->getAuthPassword(),
+                        ]);
+
+                        return redirect('/admin');
+                    }),
                 EditAction::make()->iconButton(),
                 DeleteAction::make()
                     ->iconButton()

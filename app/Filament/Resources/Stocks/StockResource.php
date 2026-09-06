@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Stocks;
 
+use App\Filament\Concerns\HidesFromAdminNavigation;
 use App\Filament\Resources\Stocks\Pages\ListStocks;
 use App\Filament\Resources\Stocks\Pages\ViewStock;
 use App\Filament\Resources\Stocks\RelationManagers\TradesRelationManager;
@@ -17,6 +18,7 @@ use Filament\Tables\Table;
 
 class StockResource extends Resource
 {
+    use HidesFromAdminNavigation;
     protected static ?string $model = Stock::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar-square';

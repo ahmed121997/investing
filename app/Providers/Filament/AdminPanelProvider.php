@@ -40,6 +40,10 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::GLOBAL_SEARCH_AFTER,
                 fn (): string => view('filament.components.language-switcher')->render(),
             )
+            ->renderHook(
+                PanelsRenderHook::TOPBAR_START,
+                fn (): string => view('filament.components.stop-impersonating')->render(),
+            )
             ->colors([
                 'primary' => Color::Amber,
             ])

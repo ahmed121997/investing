@@ -29,6 +29,8 @@ return [
     'user_role' => 'مستخدم',
     'admin_role' => 'مدير',
     'active' => 'نشط',
+    'login_as' => 'تسجيل الدخول كمستخدم',
+    'stop_impersonating' => 'العودة إلى حساب المدير',
     'active_users' => 'المستخدمون النشطون',
     'admin_overview' => 'ملخص الحسابات',
     'all_accounts' => 'كل الحسابات',

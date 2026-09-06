@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Models\Deposit;
 use App\Models\TradeTrack;
+use App\Models\User;
 use App\Models\Withdrawal;
 use App\Observers\DepositObserver;
 use App\Observers\TradeTrackObserver;
 use App\Observers\WithdrawalObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('manage-translations', fn (User $user): bool => $user->isAdmin());
+
         Deposit::observe(DepositObserver::class);
         TradeTrack::observe(TradeTrackObserver::class);
         Withdrawal::observe(WithdrawalObserver::class);

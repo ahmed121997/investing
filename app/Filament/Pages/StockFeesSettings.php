@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\User;
 use App\Models\StockFeeSetting;
 use BackedEnum;
 use Filament\Forms\Components\TextInput;
@@ -10,6 +11,7 @@ use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 
 class StockFeesSettings extends Page
 {
@@ -19,6 +21,11 @@ class StockFeesSettings extends Page
 
     protected string $view = 'filament.pages.stock-fees-settings';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('app.stock_fees.settings_page');
@@ -26,7 +33,7 @@ class StockFeesSettings extends Page
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
-        return __('app.stock_fees.tools_group');
+        return trans(config('filament-translation-manager.navigation_group'));
     }
 
     public function getTitle(): \Illuminate\Contracts\Support\Htmlable|string

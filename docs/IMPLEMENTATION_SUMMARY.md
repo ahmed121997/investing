@@ -250,7 +250,7 @@ Withdrawal
 
 1. **Modal Forms**: All create/edit operations use modal popups - clean UI
 2. **Auto User ID**: Forms automatically fill user_id with logged-in user
-3. **Currency Formatting**: Amounts displayed as USD ($)
+3. **Currency Formatting**: Amounts displayed as EGP ($)
 4. **Date Pickers**: Easy date selection with calendar widget
 5. **Searchable Columns**: Find deposits/withdrawals by user name
 6. **Sortable Columns**: Click headers to sort by amount or date
