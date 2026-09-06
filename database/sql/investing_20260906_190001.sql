@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `cache`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_expiration_index` (`expiration`)
@@ -37,6 +37,7 @@ CREATE TABLE `cache` (
 
 LOCK TABLES `cache` WRITE;
 /*!40000 ALTER TABLE `cache` DISABLE KEYS */;
+INSERT INTO `cache` VALUES ('investing-cache-livewire-rate-limiter:16d36dff9abd246c67dfac3e63b993a169af77e6','i:1;',1788710380),('investing-cache-livewire-rate-limiter:16d36dff9abd246c67dfac3e63b993a169af77e6:timer','i:1788710380;',1788710380);
 /*!40000 ALTER TABLE `cache` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,8 +49,8 @@ DROP TABLE IF EXISTS `cache_locks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_locks_expiration_index` (`expiration`)
@@ -77,7 +78,7 @@ CREATE TABLE `deposits` (
   `user_id` bigint unsigned NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `deposit_date` date NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -105,11 +106,11 @@ DROP TABLE IF EXISTS `failed_jobs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
@@ -135,27 +136,27 @@ DROP TABLE IF EXISTS `financial_reports`;
 CREATE TABLE `financial_reports` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `stock_id` bigint unsigned NOT NULL,
-  `period_a_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `period_a_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `period_a_year` smallint unsigned DEFAULT NULL,
   `period_a_month` tinyint unsigned DEFAULT NULL,
-  `period_a_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `period_b_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `period_a_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `period_b_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `period_b_year` smallint unsigned DEFAULT NULL,
   `period_b_month` tinyint unsigned DEFAULT NULL,
-  `period_b_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `period_b_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `revenue_a` decimal(20,6) DEFAULT NULL,
   `revenue_b` decimal(20,6) DEFAULT NULL,
-  `revenue_note` text COLLATE utf8mb4_unicode_ci,
+  `revenue_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `gross_profit_a` decimal(20,6) DEFAULT NULL,
   `gross_profit_b` decimal(20,6) DEFAULT NULL,
-  `gross_profit_note` text COLLATE utf8mb4_unicode_ci,
+  `gross_profit_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `net_profit_a` decimal(20,6) DEFAULT NULL,
   `net_profit_b` decimal(20,6) DEFAULT NULL,
-  `net_profit_note` text COLLATE utf8mb4_unicode_ci,
+  `net_profit_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `eps_a` decimal(20,6) DEFAULT NULL,
   `eps_b` decimal(20,6) DEFAULT NULL,
-  `eps_note` text COLLATE utf8mb4_unicode_ci,
-  `summary_notes` longtext COLLATE utf8mb4_unicode_ci,
+  `eps_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `summary_notes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `enable_projection` tinyint(1) NOT NULL DEFAULT '0',
   `projection_multiplier` decimal(8,2) NOT NULL DEFAULT '2.00',
   `operating_profit` decimal(20,6) DEFAULT NULL,
@@ -198,13 +199,13 @@ DROP TABLE IF EXISTS `job_batches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int NOT NULL,
   `pending_jobs` int NOT NULL,
   `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `failed_job_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `cancelled_at` int DEFAULT NULL,
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL,
@@ -230,8 +231,8 @@ DROP TABLE IF EXISTS `jobs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint unsigned NOT NULL,
   `reserved_at` int unsigned DEFAULT NULL,
   `available_at` int unsigned NOT NULL,
@@ -259,15 +260,15 @@ DROP TABLE IF EXISTS `media`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `media` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint unsigned NOT NULL,
-  `uuid` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `collection_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mime_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `disk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `conversions_disk` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `collection_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mime_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `disk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `conversions_disk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `size` bigint unsigned NOT NULL,
   `manipulations` json NOT NULL,
   `custom_properties` json NOT NULL,
@@ -301,10 +302,10 @@ DROP TABLE IF EXISTS `migrations`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +314,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'2026_01_26_140835_create_deposits_table',1),(5,'2026_01_26_140836_create_withdrawals_table',1),(6,'2026_01_26_143201_add_avatar_to_users_table',1),(7,'2026_01_26_143312_create_media_table',1),(8,'2026_05_07_000000_create_stocks_table',1),(9,'2026_05_07_131708_create_trades_table',1),(10,'2026_05_07_141328_create_trade_tracks_table',1),(11,'2026_05_10_000000_create_wallets_table',1),(12,'2026_06_03_162525_add_year_to_trades_table',1),(13,'2026_06_04_000000_create_sectors_table',1),(14,'2026_06_04_000001_add_sector_id_to_stocks_table',1),(15,'2026_08_02_000000_create_stock_fee_settings_table',1),(16,'2026_08_03_000000_add_tax_rates_to_stock_fee_settings_table',2),(17,'2026_08_03_100000_add_fra_fee_minimum_to_stock_fee_settings_table',3),(18,'2026_08_03_200000_rename_egx_fee_to_risk_fund_fee_in_stock_fee_settings_table',4),(19,'2026_08_18_165038_add_closed_at_to_trades_table',5),(20,'2026_08_23_170000_create_financial_reports_table',6),(22,'2026_08_26_000000_create_wallet_logs_table',7);
+INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'2026_01_26_140835_create_deposits_table',1),(5,'2026_01_26_140836_create_withdrawals_table',1),(6,'2026_01_26_143201_add_avatar_to_users_table',1),(7,'2026_01_26_143312_create_media_table',1),(8,'2026_05_07_000000_create_stocks_table',1),(9,'2026_05_07_131708_create_trades_table',1),(10,'2026_05_07_141328_create_trade_tracks_table',1),(11,'2026_05_10_000000_create_wallets_table',1),(12,'2026_06_03_162525_add_year_to_trades_table',1),(13,'2026_06_04_000000_create_sectors_table',1),(14,'2026_06_04_000001_add_sector_id_to_stocks_table',1),(15,'2026_08_02_000000_create_stock_fee_settings_table',1),(16,'2026_08_03_000000_add_tax_rates_to_stock_fee_settings_table',2),(17,'2026_08_03_100000_add_fra_fee_minimum_to_stock_fee_settings_table',3),(18,'2026_08_03_200000_rename_egx_fee_to_risk_fund_fee_in_stock_fee_settings_table',4),(19,'2026_08_18_165038_add_closed_at_to_trades_table',5),(20,'2026_08_23_170000_create_financial_reports_table',6),(22,'2026_08_26_000000_create_wallet_logs_table',7),(23,'2026_09_06_000000_add_user_id_to_trades_table',8),(24,'2026_09_06_010000_add_role_and_is_active_to_users_table',8);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,8 +326,8 @@ DROP TABLE IF EXISTS `password_reset_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -350,8 +351,8 @@ DROP TABLE IF EXISTS `sectors`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sectors` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name_ar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_ar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -378,11 +379,11 @@ DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint unsigned DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sessions_user_id_index` (`user_id`),
@@ -396,7 +397,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('dngcEMM8ydN6r0Ubl667s5ak9bYwULhsSk7wsuUB',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36','YTo4OntzOjY6Il90b2tlbiI7czo0MDoid3lSUHdhNlBzOHg0Q3BMb3h3cER4UFp6TEpjZDFaRVphVWJabHlzOCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2NDoiYmQxZDYwOGIyZTFjOGQzOGZmNDQ0NmQ2YzZjOTEzNDZjYjRjNDBkYTBjM2UyZmU4ZTkwYmQwOWYyM2I0NThlMSI7czo2OiJ0YWJsZXMiO2E6Njp7czo0MDoiOTYyMjFlZDg3ZGU5OGViYTJhNzU3NWEyNTZhZWQxYTdfY29sdW1ucyI7YTo3OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTA6InN0b2NrLm5hbWUiO3M6NToibGFiZWwiO3M6NToiU3RvY2siO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czo2OiJBbW91bnQiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEzOiJjdXJyZW50X3RvdGFsIjtzOjU6ImxhYmVsIjtzOjEzOiJDdXJyZW50IFRvdGFsIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6MzthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxOToidG90YWxfdHJhZGVzX2Ftb3VudCI7czo1OiJsYWJlbCI7czoxMzoiVHJhZGVzIEFtb3VudCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjQ7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTE6InByb2ZpdF9sb3NzIjtzOjU6ImxhYmVsIjtzOjExOiJQcm9maXQvTG9zcyI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjU7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6Njoic3RhdHVzIjtzOjU6ImxhYmVsIjtzOjY6IlN0YXR1cyI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjY7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTA6ImNyZWF0ZWRfYXQiO3M6NToibGFiZWwiO3M6NzoiQ3JlYXRlZCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319czo0MDoiNDdlNjc4YzhhMmU3YTIxMDY5YmZmODVkOGNjNTc5MGVfY29sdW1ucyI7YTo1OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoibmFtZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNin2LPZhSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoiY29kZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNix2YXYsiI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjI7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTQ6InNlY3Rvci5uYW1lX2FyIjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YLYt9in2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjU6InByaWNlIjtzOjU6ImxhYmVsIjtzOjEwOiLYp9mE2LPYudixIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6NDthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxMDoidXBkYXRlZF9hdCI7czo1OiJsYWJlbCI7czoxNzoi2KLYrtixINiq2K3Yr9mK2KsiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9fXM6NDA6IjcyZTY3MzkyNGYwYjVjODI0NDhkNmExN2YxNWFkMTZmX2NvbHVtbnMiO2E6Nzp7aTowO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEwOiJjcmVhdGVkX2F0IjtzOjU6ImxhYmVsIjtzOjQ6IkRhdGUiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFjdGlvbiI7czo1OiJsYWJlbCI7czo2OiJBY3Rpb24iO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjE2OiJ0cmFuc2FjdGlvbl90eXBlIjtzOjU6ImxhYmVsIjtzOjQ6IlR5cGUiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czoyMDoiQW1vdW50IC8gQ2FzaCBDaGFuZ2UiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTo0O2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjExOiJjYXNoX2JlZm9yZSI7czo1OiJsYWJlbCI7czoxMDoiVG90YWwgQ2FzaCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjU7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTc6InNhdmVfY2xvdWRfYmVmb3JlIjtzOjU6ImxhYmVsIjtzOjE2OiJUb3RhbCBTYXZlIENsb3VkIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6NjthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxNDoidHJhZGVfdHJhY2tfaWQiO3M6NToibGFiZWwiO3M6MTE6IlRyYWRlIFRyYWNrIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fX1zOjQwOiJiYzFlYjRiMzI1YWJmY2VlM2Y1YTgyZjIwNzIxYjFhMV9jb2x1bW5zIjthOjM6e2k6MDthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czo0OiJkYXRlIjtzOjU6ImxhYmVsIjtzOjE0OiLYp9mE2KrYp9ix2YrYriI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NjoiYW1vdW50IjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YXYqNmE2LoiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjQ6InR5cGUiO3M6NToibGFiZWwiO3M6MTA6Itin2YTZhtmI2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9fXM6NDA6IjY3YzRkMzE5NmYzZjMyMGQxMTc0ZTM1M2IwMGM0ZjI0X2NvbHVtbnMiO2E6NDp7aTowO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjk6InVzZXIubmFtZSI7czo1OiJsYWJlbCI7czoxNjoi2KfZhNmF2LPYqtiu2K/ZhSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NjoiYW1vdW50IjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YXYqNmE2LoiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEyOiJkZXBvc2l0X2RhdGUiO3M6NToibGFiZWwiO3M6MjU6Itiq2KfYsdmK2K4g2KfZhNil2YrYr9in2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjExOiJkZXNjcmlwdGlvbiI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNmI2LXZgSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319czo0MDoiNTFiODBlYjgxYjhiNzM5OGE0N2M3ZWQyNGE5Y2Y5MDhfY29sdW1ucyI7YTo0OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6OToidXNlci5uYW1lIjtzOjU6ImxhYmVsIjtzOjQ6IlVzZXIiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czo2OiJBbW91bnQiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjE1OiJ3aXRoZHJhd2FsX2RhdGUiO3M6NToibGFiZWwiO3M6MTU6IldpdGhkcmF3YWwgRGF0ZSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjM7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTE6ImRlc2NyaXB0aW9uIjtzOjU6ImxhYmVsIjtzOjExOiJEZXNjcmlwdGlvbiI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjM2OiJodHRwOi8vaW52ZXN0aW5nLnRlc3QvYWRtaW4vZGVwb3NpdHMiO3M6NToicm91dGUiO3M6Mzk6ImZpbGFtZW50LmFkbWluLnJlc291cmNlcy5kZXBvc2l0cy5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6ODoiZmlsYW1lbnQiO2E6MDp7fXM6NjoibG9jYWxlIjtzOjI6ImFyIjt9',1788706667);
+INSERT INTO `sessions` VALUES ('dngcEMM8ydN6r0Ubl667s5ak9bYwULhsSk7wsuUB',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36','YTo4OntzOjY6Il90b2tlbiI7czo0MDoid3lSUHdhNlBzOHg0Q3BMb3h3cER4UFp6TEpjZDFaRVphVWJabHlzOCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2NDoiYmQxZDYwOGIyZTFjOGQzOGZmNDQ0NmQ2YzZjOTEzNDZjYjRjNDBkYTBjM2UyZmU4ZTkwYmQwOWYyM2I0NThlMSI7czo2OiJ0YWJsZXMiO2E6Njp7czo0MDoiOTYyMjFlZDg3ZGU5OGViYTJhNzU3NWEyNTZhZWQxYTdfY29sdW1ucyI7YTo3OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTA6InN0b2NrLm5hbWUiO3M6NToibGFiZWwiO3M6NToiU3RvY2siO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czo2OiJBbW91bnQiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEzOiJjdXJyZW50X3RvdGFsIjtzOjU6ImxhYmVsIjtzOjEzOiJDdXJyZW50IFRvdGFsIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6MzthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxOToidG90YWxfdHJhZGVzX2Ftb3VudCI7czo1OiJsYWJlbCI7czoxMzoiVHJhZGVzIEFtb3VudCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjQ7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTE6InByb2ZpdF9sb3NzIjtzOjU6ImxhYmVsIjtzOjExOiJQcm9maXQvTG9zcyI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjU7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6Njoic3RhdHVzIjtzOjU6ImxhYmVsIjtzOjY6IlN0YXR1cyI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjY7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTA6ImNyZWF0ZWRfYXQiO3M6NToibGFiZWwiO3M6NzoiQ3JlYXRlZCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319czo0MDoiNDdlNjc4YzhhMmU3YTIxMDY5YmZmODVkOGNjNTc5MGVfY29sdW1ucyI7YTo1OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoibmFtZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNin2LPZhSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoiY29kZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNix2YXYsiI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjI7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTQ6InNlY3Rvci5uYW1lX2FyIjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YLYt9in2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjU6InByaWNlIjtzOjU6ImxhYmVsIjtzOjEwOiLYp9mE2LPYudixIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6NDthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxMDoidXBkYXRlZF9hdCI7czo1OiJsYWJlbCI7czoxNzoi2KLYrtixINiq2K3Yr9mK2KsiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9fXM6NDA6IjcyZTY3MzkyNGYwYjVjODI0NDhkNmExN2YxNWFkMTZmX2NvbHVtbnMiO2E6Nzp7aTowO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEwOiJjcmVhdGVkX2F0IjtzOjU6ImxhYmVsIjtzOjQ6IkRhdGUiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFjdGlvbiI7czo1OiJsYWJlbCI7czo2OiJBY3Rpb24iO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjE2OiJ0cmFuc2FjdGlvbl90eXBlIjtzOjU6ImxhYmVsIjtzOjQ6IlR5cGUiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czoyMDoiQW1vdW50IC8gQ2FzaCBDaGFuZ2UiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTo0O2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjExOiJjYXNoX2JlZm9yZSI7czo1OiJsYWJlbCI7czoxMDoiVG90YWwgQ2FzaCI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjU7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTc6InNhdmVfY2xvdWRfYmVmb3JlIjtzOjU6ImxhYmVsIjtzOjE2OiJUb3RhbCBTYXZlIENsb3VkIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fWk6NjthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czoxNDoidHJhZGVfdHJhY2tfaWQiO3M6NToibGFiZWwiO3M6MTE6IlRyYWRlIFRyYWNrIjtzOjg6ImlzSGlkZGVuIjtiOjA7czo5OiJpc1RvZ2dsZWQiO2I6MTtzOjEyOiJpc1RvZ2dsZWFibGUiO2I6MDtzOjI0OiJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiO047fX1zOjQwOiJiYzFlYjRiMzI1YWJmY2VlM2Y1YTgyZjIwNzIxYjFhMV9jb2x1bW5zIjthOjM6e2k6MDthOjc6e3M6NDoidHlwZSI7czo2OiJjb2x1bW4iO3M6NDoibmFtZSI7czo0OiJkYXRlIjtzOjU6ImxhYmVsIjtzOjE0OiLYp9mE2KrYp9ix2YrYriI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NjoiYW1vdW50IjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YXYqNmE2LoiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjQ6InR5cGUiO3M6NToibGFiZWwiO3M6MTA6Itin2YTZhtmI2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9fXM6NDA6IjY3YzRkMzE5NmYzZjMyMGQxMTc0ZTM1M2IwMGM0ZjI0X2NvbHVtbnMiO2E6NDp7aTowO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjk6InVzZXIubmFtZSI7czo1OiJsYWJlbCI7czoxNjoi2KfZhNmF2LPYqtiu2K/ZhSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NjoiYW1vdW50IjtzOjU6ImxhYmVsIjtzOjEyOiLYp9mE2YXYqNmE2LoiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjEyOiJkZXBvc2l0X2RhdGUiO3M6NToibGFiZWwiO3M6MjU6Itiq2KfYsdmK2K4g2KfZhNil2YrYr9in2LkiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aTozO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjExOiJkZXNjcmlwdGlvbiI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNmI2LXZgSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319czo0MDoiNTFiODBlYjgxYjhiNzM5OGE0N2M3ZWQyNGE5Y2Y5MDhfY29sdW1ucyI7YTo0OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6OToidXNlci5uYW1lIjtzOjU6ImxhYmVsIjtzOjQ6IlVzZXIiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToxO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjY6ImFtb3VudCI7czo1OiJsYWJlbCI7czo2OiJBbW91bnQiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9aToyO2E6Nzp7czo0OiJ0eXBlIjtzOjY6ImNvbHVtbiI7czo0OiJuYW1lIjtzOjE1OiJ3aXRoZHJhd2FsX2RhdGUiO3M6NToibGFiZWwiO3M6MTU6IldpdGhkcmF3YWwgRGF0ZSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjM7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTE6ImRlc2NyaXB0aW9uIjtzOjU6ImxhYmVsIjtzOjExOiJEZXNjcmlwdGlvbiI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO319fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjM2OiJodHRwOi8vaW52ZXN0aW5nLnRlc3QvYWRtaW4vZGVwb3NpdHMiO3M6NToicm91dGUiO3M6Mzk6ImZpbGFtZW50LmFkbWluLnJlc291cmNlcy5kZXBvc2l0cy5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6ODoiZmlsYW1lbnQiO2E6MDp7fXM6NjoibG9jYWxlIjtzOjI6ImFyIjt9',1788706667),('Sp2QuzC4K4BCmh6x8SDLq9VRpL9FM3stRPriKzbU',2,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36','YTo2OntzOjY6Il90b2tlbiI7czo0MDoieHNtOGZOVjk1dmVuZUNmdmJPbzFjYVNjcUdlTTZuajY1WnNTUjlIRSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9pbnZlc3RpbmcudGVzdC9hZG1pbi91c2VycyI7czo1OiJyb3V0ZSI7czozNjoiZmlsYW1lbnQuYWRtaW4ucmVzb3VyY2VzLnVzZXJzLmluZGV4Ijt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2NDoiNjk4Y2Y5M2MyOTc5ZjFhYmQ4MTE2NmQwNTUyNmE1MTc2ODI2ZmNhNzNiZDZiNjdlYzU5MzMwYzkxMGJlOGU4NCI7czo2OiJ0YWJsZXMiO2E6MTp7czo0MDoiZTY0NDgzM2Y0ZTRlMDg3MTIzMTVkYTcxYjMzZmFjZDJfY29sdW1ucyI7YTo1OntpOjA7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoibmFtZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNin2LPZhSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjE7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NToiZW1haWwiO3M6NToibGFiZWwiO3M6MzM6Itin2YTYqNix2YrYryDYp9mE2KXZhNmD2KrYsdmI2YbZiiI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjI7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6NDoicm9sZSI7czo1OiJsYWJlbCI7czoxMDoi2KfZhNiv2YjYsSI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjM7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6OToiaXNfYWN0aXZlIjtzOjU6ImxhYmVsIjtzOjY6ItmG2LTYtyI7czo4OiJpc0hpZGRlbiI7YjowO3M6OToiaXNUb2dnbGVkIjtiOjE7czoxMjoiaXNUb2dnbGVhYmxlIjtiOjA7czoyNDoiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjtOO31pOjQ7YTo3OntzOjQ6InR5cGUiO3M6NjoiY29sdW1uIjtzOjQ6Im5hbWUiO3M6MTA6ImNyZWF0ZWRfYXQiO3M6NToibGFiZWwiO3M6MjU6Itiq2KfYsdmK2K4g2KfZhNil2YbYtNin2KEiO3M6ODoiaXNIaWRkZW4iO2I6MDtzOjk6ImlzVG9nZ2xlZCI7YjoxO3M6MTI6ImlzVG9nZ2xlYWJsZSI7YjowO3M6MjQ6ImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI7Tjt9fX19',1788710324);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -443,9 +444,9 @@ DROP TABLE IF EXISTS `stocks`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stocks` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `market` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'EGx',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `market` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'EGx',
   `price` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -479,7 +480,7 @@ CREATE TABLE `trade_tracks` (
   `trade_id` bigint unsigned NOT NULL,
   `amount` double NOT NULL,
   `date` datetime NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -507,9 +508,10 @@ DROP TABLE IF EXISTS `trades`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `trades` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned DEFAULT NULL,
   `stock_id` bigint unsigned NOT NULL,
   `amount` double NOT NULL,
-  `status` enum('open','close') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open',
+  `status` enum('open','close') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open',
   `closed_at` datetime DEFAULT NULL,
   `year` smallint unsigned NOT NULL DEFAULT '2026',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -517,7 +519,9 @@ CREATE TABLE `trades` (
   PRIMARY KEY (`id`),
   KEY `trades_stock_id_foreign` (`stock_id`),
   KEY `trades_year_index` (`year`),
-  CONSTRAINT `trades_stock_id_foreign` FOREIGN KEY (`stock_id`) REFERENCES `stocks` (`id`) ON DELETE CASCADE
+  KEY `trades_user_id_foreign` (`user_id`),
+  CONSTRAINT `trades_stock_id_foreign` FOREIGN KEY (`stock_id`) REFERENCES `stocks` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `trades_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -527,7 +531,7 @@ CREATE TABLE `trades` (
 
 LOCK TABLES `trades` WRITE;
 /*!40000 ALTER TABLE `trades` DISABLE KEYS */;
-INSERT INTO `trades` VALUES (1,113,1500,'open',NULL,2026,'2026-08-02 14:08:14','2026-09-06 13:01:27'),(2,69,0,'close','2026-09-03 14:45:18',2026,'2026-08-02 14:08:28','2026-09-03 11:45:21'),(3,130,724,'open',NULL,2026,'2026-08-02 14:08:55','2026-08-06 11:51:40'),(4,96,5000,'open',NULL,2026,'2026-08-02 14:09:28','2026-08-31 13:35:43'),(5,234,1000,'open',NULL,2026,'2026-08-02 14:09:41','2026-09-06 13:00:41'),(6,118,1400,'open',NULL,2026,'2026-08-02 14:09:58','2026-08-17 12:31:48'),(7,235,0,'close',NULL,2025,'2026-08-02 16:57:18','2026-08-02 16:57:18'),(8,7,0,'close',NULL,2025,'2026-08-02 16:58:02','2026-08-02 16:58:02'),(9,98,0,'close',NULL,2025,'2026-08-02 16:59:26','2026-08-02 16:59:26'),(10,91,0,'close',NULL,2025,'2026-08-02 16:59:52','2026-08-02 16:59:52'),(11,2,0,'close',NULL,2025,'2026-08-02 17:00:26','2026-08-02 17:00:26'),(12,39,0,'close',NULL,2025,'2026-08-02 17:01:13','2026-08-02 17:01:13'),(13,116,0,'close',NULL,2025,'2026-08-02 17:02:02','2026-08-02 17:02:02'),(14,117,0,'close',NULL,2025,'2026-08-02 17:02:48','2026-08-02 17:02:48'),(15,3,0,'close',NULL,2025,'2026-08-02 17:03:28','2026-08-02 17:03:28'),(16,188,0,'close',NULL,2025,'2026-08-02 17:04:06','2026-08-02 17:04:06'),(17,71,0,'close',NULL,2025,'2026-08-02 17:04:33','2026-08-02 17:04:33'),(18,179,0,'close',NULL,2025,'2026-08-02 17:05:22','2026-08-02 17:05:22'),(19,94,0,'close',NULL,2025,'2026-08-02 17:05:50','2026-08-02 17:05:50'),(20,153,0,'close',NULL,2025,'2026-08-02 17:06:17','2026-08-02 17:06:17'),(21,223,0,'close',NULL,2025,'2026-08-02 17:06:56','2026-08-02 17:06:56'),(22,212,0,'close',NULL,2025,'2026-08-02 17:07:26','2026-08-02 17:07:26'),(23,210,0,'close',NULL,2025,'2026-08-02 17:07:53','2026-08-02 17:07:53'),(24,121,0,'close',NULL,2025,'2026-08-02 17:08:54','2026-08-02 17:08:54'),(25,118,0,'close',NULL,2025,'2026-08-02 17:09:35','2026-08-02 17:09:35'),(26,33,0,'close',NULL,2025,'2026-08-02 17:10:02','2026-08-02 17:10:02'),(27,80,0,'close',NULL,2025,'2026-08-02 17:10:46','2026-08-02 17:10:46'),(28,106,0,'close',NULL,2026,'2026-08-02 17:11:18','2026-08-02 17:11:18'),(29,107,0,'close',NULL,2025,'2026-08-02 17:12:15','2026-08-02 17:12:15'),(30,74,0,'close',NULL,2025,'2026-08-02 17:13:02','2026-08-02 17:13:02'),(31,169,550,'open',NULL,2025,'2026-08-02 17:13:28','2026-08-24 12:15:16'),(32,122,0,'close',NULL,2026,'2026-08-02 17:14:05','2026-08-02 17:19:07'),(33,175,0,'close',NULL,2025,'2026-08-02 17:15:04','2026-08-02 17:15:04'),(34,19,0,'close',NULL,2025,'2026-08-02 17:15:52','2026-08-02 17:15:52'),(35,233,0,'close',NULL,2025,'2026-08-02 17:16:15','2026-08-02 17:16:15'),(36,69,0,'close',NULL,2025,'2026-08-02 17:17:42','2026-08-02 17:17:42'),(37,230,0,'close',NULL,2025,'2026-08-02 18:02:20','2026-08-02 18:02:20'),(38,113,0,'close','2026-06-01 16:58:29',2026,'2026-08-02 18:02:47','2026-08-18 13:58:41'),(39,52,0,'close',NULL,2026,'2026-08-02 18:05:09','2026-08-02 18:05:09'),(40,236,0,'close',NULL,2026,'2026-08-03 09:57:06','2026-08-03 09:57:06'),(41,38,0,'close',NULL,2026,'2026-08-03 11:34:05','2026-08-03 11:34:05'),(42,71,0,'close',NULL,2026,'2026-08-04 13:03:31','2026-08-04 13:04:55'),(43,136,4000,'open',NULL,2026,'2026-09-01 14:57:21','2026-09-06 12:59:22');
+INSERT INTO `trades` VALUES (1,1,113,1500,'open',NULL,2026,'2026-08-02 14:08:14','2026-09-06 13:01:27'),(2,1,69,0,'close','2026-09-03 14:45:18',2026,'2026-08-02 14:08:28','2026-09-03 11:45:21'),(3,1,130,724,'open',NULL,2026,'2026-08-02 14:08:55','2026-08-06 11:51:40'),(4,1,96,5000,'open',NULL,2026,'2026-08-02 14:09:28','2026-08-31 13:35:43'),(5,1,234,1000,'open',NULL,2026,'2026-08-02 14:09:41','2026-09-06 13:00:41'),(6,1,118,1400,'open',NULL,2026,'2026-08-02 14:09:58','2026-08-17 12:31:48'),(7,1,235,0,'close',NULL,2025,'2026-08-02 16:57:18','2026-08-02 16:57:18'),(8,1,7,0,'close',NULL,2025,'2026-08-02 16:58:02','2026-08-02 16:58:02'),(9,1,98,0,'close',NULL,2025,'2026-08-02 16:59:26','2026-08-02 16:59:26'),(10,1,91,0,'close',NULL,2025,'2026-08-02 16:59:52','2026-08-02 16:59:52'),(11,1,2,0,'close',NULL,2025,'2026-08-02 17:00:26','2026-08-02 17:00:26'),(12,1,39,0,'close',NULL,2025,'2026-08-02 17:01:13','2026-08-02 17:01:13'),(13,1,116,0,'close',NULL,2025,'2026-08-02 17:02:02','2026-08-02 17:02:02'),(14,1,117,0,'close',NULL,2025,'2026-08-02 17:02:48','2026-08-02 17:02:48'),(15,1,3,0,'close',NULL,2025,'2026-08-02 17:03:28','2026-08-02 17:03:28'),(16,1,188,0,'close',NULL,2025,'2026-08-02 17:04:06','2026-08-02 17:04:06'),(17,1,71,0,'close',NULL,2025,'2026-08-02 17:04:33','2026-08-02 17:04:33'),(18,1,179,0,'close',NULL,2025,'2026-08-02 17:05:22','2026-08-02 17:05:22'),(19,1,94,0,'close',NULL,2025,'2026-08-02 17:05:50','2026-08-02 17:05:50'),(20,1,153,0,'close',NULL,2025,'2026-08-02 17:06:17','2026-08-02 17:06:17'),(21,1,223,0,'close',NULL,2025,'2026-08-02 17:06:56','2026-08-02 17:06:56'),(22,1,212,0,'close',NULL,2025,'2026-08-02 17:07:26','2026-08-02 17:07:26'),(23,1,210,0,'close',NULL,2025,'2026-08-02 17:07:53','2026-08-02 17:07:53'),(24,1,121,0,'close',NULL,2025,'2026-08-02 17:08:54','2026-08-02 17:08:54'),(25,1,118,0,'close',NULL,2025,'2026-08-02 17:09:35','2026-08-02 17:09:35'),(26,1,33,0,'close',NULL,2025,'2026-08-02 17:10:02','2026-08-02 17:10:02'),(27,1,80,0,'close',NULL,2025,'2026-08-02 17:10:46','2026-08-02 17:10:46'),(28,1,106,0,'close',NULL,2026,'2026-08-02 17:11:18','2026-08-02 17:11:18'),(29,1,107,0,'close',NULL,2025,'2026-08-02 17:12:15','2026-08-02 17:12:15'),(30,1,74,0,'close',NULL,2025,'2026-08-02 17:13:02','2026-08-02 17:13:02'),(31,1,169,550,'open',NULL,2025,'2026-08-02 17:13:28','2026-08-24 12:15:16'),(32,1,122,0,'close',NULL,2026,'2026-08-02 17:14:05','2026-08-02 17:19:07'),(33,1,175,0,'close',NULL,2025,'2026-08-02 17:15:04','2026-08-02 17:15:04'),(34,1,19,0,'close',NULL,2025,'2026-08-02 17:15:52','2026-08-02 17:15:52'),(35,1,233,0,'close',NULL,2025,'2026-08-02 17:16:15','2026-08-02 17:16:15'),(36,1,69,0,'close',NULL,2025,'2026-08-02 17:17:42','2026-08-02 17:17:42'),(37,1,230,0,'close',NULL,2025,'2026-08-02 18:02:20','2026-08-02 18:02:20'),(38,1,113,0,'close','2026-06-01 16:58:29',2026,'2026-08-02 18:02:47','2026-08-18 13:58:41'),(39,1,52,0,'close',NULL,2026,'2026-08-02 18:05:09','2026-08-02 18:05:09'),(40,1,236,0,'close',NULL,2026,'2026-08-03 09:57:06','2026-08-03 09:57:06'),(41,1,38,0,'close',NULL,2026,'2026-08-03 11:34:05','2026-08-03 11:34:05'),(42,1,71,0,'close',NULL,2026,'2026-08-04 13:03:31','2026-08-04 13:04:55'),(43,1,136,4000,'open',NULL,2026,'2026-09-01 14:57:21','2026-09-06 12:59:22');
 /*!40000 ALTER TABLE `trades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,16 +544,18 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -558,7 +564,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin User','admin@example.com',NULL,'$2y$12$eoI78NcO/YE5nqpaMRbLq.4bP5u96qx0BTjGEL9FI.m/Jkr/FS4Uu','xfqkCwKJ9EyUgUtqXITWVVUCIp8oNtj2woY3z3wojaQuA9YfLWIRGa0bzuVG','2026-08-02 14:00:07','2026-08-02 14:00:07');
+INSERT INTO `users` VALUES (1,'Thndr Account','thndr@app.com',NULL,'$2y$12$FGbOncp8/oSUp4zg32dPeOAksju/okYYzHNg9g4GDNIS7atRreBqy','user',1,'2RHpkiRFGznbUdl7fb19te5BRXZXXlYbr4rTjyWEFS3rEoWbhkdpgjJaC2CZ','2026-08-02 14:00:07','2026-09-06 15:54:16'),(2,'Administrator','admin@app.com',NULL,'$2y$12$Y0LeI1/yjgHXO4BFuwfkUOotPg.ZGgiqOezH..Y4Pj3WuKS7UW97O','admin',1,NULL,'2026-09-06 15:53:40','2026-09-06 15:53:40');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,8 +580,8 @@ CREATE TABLE `wallet_logs` (
   `wallet_id` bigint unsigned NOT NULL,
   `trade_track_id` bigint unsigned DEFAULT NULL,
   `trade_id` bigint unsigned DEFAULT NULL,
-  `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `amount` decimal(15,2) NOT NULL,
   `cash_change` decimal(15,2) NOT NULL,
   `cash_before` decimal(15,2) NOT NULL,
@@ -644,7 +650,7 @@ CREATE TABLE `withdrawals` (
   `user_id` bigint unsigned NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `withdrawal_date` date NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -672,4 +678,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-06 18:00:01
+-- Dump completed on 2026-09-06 19:00:01
