@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Trade extends Model
 {
@@ -28,8 +29,14 @@ class Trade extends Model
     protected static function booted(): void
     {
         static::creating(function (Trade $trade): void {
+            $trade->user_id ??= Auth::id();
             $trade->year ??= (int) now()->year;
         });
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function stock(): BelongsTo

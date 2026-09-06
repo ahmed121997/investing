@@ -8,6 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
+use Illuminate\Support\Facades\Auth;
 
 class TopProfitStocksChart extends ChartWidget
 {
@@ -23,6 +24,7 @@ class TopProfitStocksChart extends ChartWidget
     public function filtersSchema(Schema $schema): Schema
     {
         $years = Trade::query()
+            ->where('user_id', Auth::id())
             ->whereNotNull('year')
             ->distinct()
             ->orderByDesc('year')
@@ -63,11 +65,13 @@ class TopProfitStocksChart extends ChartWidget
         $selectedStatus = $this->filters['status'] ?? 'all';
 
         $tradeTrackTotals = TradeTrack::query()
+            ->whereHas('trade', fn ($query) => $query->where('user_id', Auth::id()))
             ->select('trade_id')
             ->selectRaw('SUM(amount) as total_amount')
             ->groupBy('trade_id');
 
         $stockProfitQuery = Trade::query()
+            ->where('trades.user_id', Auth::id())
             ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
             ->leftJoinSub($tradeTrackTotals, 'trade_track_totals', function ($join) {
                 $join->on('trade_track_totals.trade_id', '=', 'trades.id');

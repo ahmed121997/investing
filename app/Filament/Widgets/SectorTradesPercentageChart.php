@@ -4,10 +4,10 @@ namespace App\Filament\Widgets;
 
 use App\Models\Trade;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class SectorTradesPercentageChart extends ChartWidget
 {
-
     protected ?string $heading = null;
 
     public function getHeading(): string
@@ -21,6 +21,7 @@ class SectorTradesPercentageChart extends ChartWidget
             ->join('stocks', 'trades.stock_id', '=', 'stocks.id')
             ->leftJoin('sectors', 'stocks.sector_id', '=', 'sectors.id')
             ->where('trades.status', 'open')
+            ->where('trades.user_id', Auth::id())
             ->selectRaw('COALESCE(sectors.name_ar, ?) as sector_name', [__('app.dashboard.no_sector')])
             ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->groupBy('sectors.id', 'sectors.name_ar')
@@ -45,7 +46,7 @@ class SectorTradesPercentageChart extends ChartWidget
                 $total = (float) $item->total;
                 $percentage = $totalTradeValue > 0 ? round(($total / $totalTradeValue) * 100, 1) : 0;
 
-                return $item->sector_name . ' (' . $percentage . '%)';
+                return $item->sector_name.' ('.$percentage.'%)';
             })->toArray(),
         ];
     }

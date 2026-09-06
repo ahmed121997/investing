@@ -7,6 +7,7 @@ use App\Models\Trade;
 use App\Models\TradeTrack;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Auth;
 
 class TradeStats extends BaseWidget
 {
@@ -19,12 +20,13 @@ class TradeStats extends BaseWidget
 
     protected function getStats(): array
     {
-        $totalTrades = Trade::count();
-        $totalOpenTrades = Trade::where('status', 'open')->count();
-        $totalClosedTrades = Trade::where('status', 'close')->count();
+        $totalTrades = Trade::where('user_id', Auth::id())->count();
+        $totalOpenTrades = Trade::where('user_id', Auth::id())->where('status', 'open')->count();
+        $totalClosedTrades = Trade::where('user_id', Auth::id())->where('status', 'close')->count();
         $totalSectors = Sector::count();
 
         $tradeTrackTotals = TradeTrack::query()
+            ->whereHas('trade', fn ($query) => $query->where('user_id', Auth::id()))
             ->select('trade_id')
             ->selectRaw('SUM(amount) as total_amount')
             ->groupBy('trade_id');
@@ -32,6 +34,7 @@ class TradeStats extends BaseWidget
         $profitLossExpression = '(trades.amount * stocks.price) + COALESCE(trade_track_totals.total_amount, 0)';
 
         $profitLossCounts = Trade::query()
+            ->where('trades.user_id', Auth::id())
             ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
             ->leftJoinSub($tradeTrackTotals, 'trade_track_totals', function ($join) {
                 $join->on('trade_track_totals.trade_id', '=', 'trades.id');
@@ -76,7 +79,6 @@ class TradeStats extends BaseWidget
                 ->description($totalProfitLoss >= 0 ? __('app.dashboard.total_portfolio_profit') : __('app.dashboard.total_portfolio_loss'))
                 ->descriptionIcon($totalProfitLoss >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($totalProfitLoss >= 0 ? 'success' : 'danger'),
-
 
         ];
     }

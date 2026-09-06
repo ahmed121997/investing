@@ -9,19 +9,20 @@ use App\Filament\Resources\Trades\Schemas\TradeForm;
 use App\Filament\Resources\Trades\Tables\TradesTable;
 use App\Models\Trade;
 use BackedEnum;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Section;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class TradeResource extends Resource
 {
     protected static ?string $model = Trade::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
 
     public static function getNavigationSort(): ?int
     {
@@ -48,6 +49,11 @@ class TradeResource extends Resource
         return TradeForm::configure($schema);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', Auth::id());
+    }
+
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -58,7 +64,7 @@ class TradeResource extends Resource
                     ->schema([
                         TextEntry::make('stock.name')
                             ->label(__('app.stock'))
-                            ->formatStateUsing(fn ($state, $record) => $record->stock->name . ' (' . $record->stock->code . ')'),
+                            ->formatStateUsing(fn ($state, $record) => $record->stock->name.' ('.$record->stock->code.')'),
                         TextEntry::make('amount')
                             ->label(__('app.amount'))
                             ->numeric(decimalPlaces: 0),

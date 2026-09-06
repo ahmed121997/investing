@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Wallet;
 use App\Models\WalletLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -12,6 +13,12 @@ class WalletLogUndoService
     public function undo(WalletLog $walletLog): void
     {
         DB::transaction(function () use ($walletLog): void {
+            if ((int) $walletLog->wallet()->value('user_id') !== (int) Auth::id()) {
+                throw ValidationException::withMessages([
+                    'wallet' => [__('app.authentication_required')],
+                ]);
+            }
+
             $wallet = Wallet::query()
                 ->whereKey($walletLog->wallet_id)
                 ->lockForUpdate()

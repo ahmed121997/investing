@@ -8,6 +8,8 @@ use App\Models\WalletLog;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class WalletLogResource extends Resource
 {
@@ -38,6 +40,11 @@ class WalletLogResource extends Resource
     public static function table(Table $table): Table
     {
         return WalletLogsTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereHas('wallet', fn (Builder $query): Builder => $query->where('user_id', Auth::id()));
     }
 
     public static function getPages(): array

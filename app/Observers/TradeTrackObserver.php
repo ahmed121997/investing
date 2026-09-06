@@ -42,7 +42,7 @@ class TradeTrackObserver
     public function deleted(TradeTrack $tradeTrack): void
     {
         $previousImpactInCents = $this->walletService->cashImpactInCents($tradeTrack);
-        $wallet = $this->walletService->applyImpact(-$previousImpactInCents);
+        $wallet = $this->walletService->applyImpact($tradeTrack->trade->user_id, -$previousImpactInCents);
 
         $this->logWalletChange($tradeTrack, $wallet, 'deleted', -$previousImpactInCents);
     }

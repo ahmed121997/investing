@@ -11,17 +11,17 @@ class TradeTrackWalletService
 {
     public function validateBalanceFor(TradeTrack $tradeTrack, int $previousImpactInCents = 0): void
     {
-        $this->validateBalanceForImpact($this->cashImpactInCents($tradeTrack) - $previousImpactInCents);
+        $this->validateBalanceForImpact($this->ownerId($tradeTrack), $this->cashImpactInCents($tradeTrack) - $previousImpactInCents);
     }
 
     public function apply(TradeTrack $tradeTrack, int $previousImpactInCents = 0): Wallet
     {
-        return $this->applyImpact($this->cashImpactInCents($tradeTrack) - $previousImpactInCents);
+        return $this->applyImpact($this->ownerId($tradeTrack), $this->cashImpactInCents($tradeTrack) - $previousImpactInCents);
     }
 
-    public function applyImpact(int $impactInCents): Wallet
+    public function applyImpact(int $userId, int $impactInCents): Wallet
     {
-        $wallet = $this->walletForCurrentUser();
+        $wallet = $this->walletForUser($userId);
         $newBalanceInCents = $this->cashInCents($wallet) + $impactInCents;
 
         if ($newBalanceInCents < 0) {
@@ -37,9 +37,9 @@ class TradeTrackWalletService
         return $wallet;
     }
 
-    private function validateBalanceForImpact(int $impactInCents): void
+    private function validateBalanceForImpact(int $userId, int $impactInCents): void
     {
-        $wallet = $this->walletForCurrentUser();
+        $wallet = $this->walletForUser($userId);
 
         if ($this->cashInCents($wallet) + $impactInCents < 0) {
             throw ValidationException::withMessages([
@@ -60,11 +60,9 @@ class TradeTrackWalletService
         };
     }
 
-    private function walletForCurrentUser(): Wallet
+    private function walletForUser(int $userId): Wallet
     {
-        $userId = Auth::id();
-
-        if (! $userId) {
+        if ($userId < 1) {
             throw ValidationException::withMessages([
                 'amount' => [__('app.authentication_required')],
             ]);
@@ -79,6 +77,25 @@ class TradeTrackWalletService
             ->where('user_id', $userId)
             ->lockForUpdate()
             ->firstOrFail();
+    }
+
+    private function ownerId(TradeTrack $tradeTrack): int
+    {
+        $ownerId = $tradeTrack->trade?->user_id;
+
+        if (! $ownerId) {
+            throw ValidationException::withMessages([
+                'trade_id' => [__('app.authentication_required')],
+            ]);
+        }
+
+        if (Auth::id() !== null && (int) Auth::id() !== (int) $ownerId) {
+            throw ValidationException::withMessages([
+                'trade_id' => [__('app.authentication_required')],
+            ]);
+        }
+
+        return (int) $ownerId;
     }
 
     private function cashInCents(Wallet $wallet): int

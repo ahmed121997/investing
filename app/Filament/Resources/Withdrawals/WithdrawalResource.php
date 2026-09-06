@@ -6,10 +6,12 @@ use App\Filament\Resources\Withdrawals\Pages\ListWithdrawals;
 use App\Filament\Resources\Withdrawals\Schemas\WithdrawalForm;
 use App\Filament\Resources\Withdrawals\Tables\WithdrawalsTable;
 use App\Models\Withdrawal;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use BackedEnum;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class WithdrawalResource extends Resource
 {
@@ -40,6 +42,11 @@ class WithdrawalResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return WithdrawalForm::configure($schema);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', Auth::id());
     }
 
     public static function table(Table $table): Table

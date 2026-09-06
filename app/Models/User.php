@@ -65,6 +65,16 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return $this->hasMany(Withdrawal::class);
     }
 
+    public function trades()
+    {
+        return $this->hasMany(Trade::class);
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
     public function getProfileImageUrl(): ?string
     {
         if ($this->hasMedia('avatars')) {

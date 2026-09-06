@@ -18,6 +18,7 @@ use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use Illuminate\Validation\ValidationException;
 
@@ -195,6 +196,7 @@ class TradesTable
         $currentYear = (int) now()->year;
 
         $years = Trade::query()
+            ->where('user_id', Auth::id())
             ->whereNotNull('year')
             ->distinct()
             ->orderByDesc('year')

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenTradesPercentageChart extends ChartWidget
 {
-    //protected int | string | array $columnSpan = ['default' => 'full', 'lg' => 4];
+    // protected int | string | array $columnSpan = ['default' => 'full', 'lg' => 4];
 
     protected ?string $heading = null;
 
@@ -23,6 +23,7 @@ class OpenTradesPercentageChart extends ChartWidget
         $stockAllocations = Trade::query()
             ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
             ->where('trades.status', 'open')
+            ->where('trades.user_id', Auth::id())
             ->selectRaw('stocks.code as stock_code')
             ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->groupBy('stocks.id', 'stocks.code')
@@ -44,7 +45,7 @@ class OpenTradesPercentageChart extends ChartWidget
             $total = (float) $stock->total;
             $percentage = $walletTotal > 0 ? round(($total / $walletTotal) * 100, 1) : 0;
 
-            return $stock->stock_code . ' (' . $percentage . '%)';
+            return $stock->stock_code.' ('.$percentage.'%)';
         })->toArray();
 
         if ($liquidityTotal > 0) {

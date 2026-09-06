@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OpenStocksLiquidityChart extends ChartWidget
 {
-
     protected ?string $heading = null;
 
     public function getHeading(): string
@@ -22,6 +21,7 @@ class OpenStocksLiquidityChart extends ChartWidget
         $openStocksTotal = (float) Trade::query()
             ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
             ->where('trades.status', 'open')
+            ->where('trades.user_id', Auth::id())
             ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->value('total');
 

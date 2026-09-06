@@ -2,9 +2,9 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\User;
 use App\Models\Stock;
 use App\Models\Trade;
+use App\Models\User;
 use App\Models\Wallet;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -31,15 +31,15 @@ class DepositWithdrawalStats extends BaseWidget
         }
 
         return [
-            Stat::make(__('app.dashboard.total_deposits'), '$' . number_format($totalDeposits, 2))
+            Stat::make(__('app.dashboard.total_deposits'), '$'.number_format($totalDeposits, 2))
                 ->description(__('app.dashboard.sum_of_all_deposits'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
-            Stat::make(__('app.dashboard.total_withdrawals'), '$' . number_format($totalWithdrawals, 2))
+            Stat::make(__('app.dashboard.total_withdrawals'), '$'.number_format($totalWithdrawals, 2))
                 ->description(__('app.dashboard.sum_of_all_withdrawals'))
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->color('danger'),
-            Stat::make(__('app.dashboard.balance'), '$' . number_format($balance, 2))
+            Stat::make(__('app.dashboard.balance'), '$'.number_format($balance, 2))
                 ->description(__('app.dashboard.profit_percentage', ['percentage' => $profitPercentage]))
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color($balance >= 0 ? 'success' : 'danger'),
@@ -55,6 +55,7 @@ class DepositWithdrawalStats extends BaseWidget
         $openStocksTotal = (float) Trade::query()
             ->join('stocks', 'stocks.id', '=', 'trades.stock_id')
             ->where('trades.status', 'open')
+            ->where('trades.user_id', Auth::id())
             ->selectRaw('COALESCE(SUM(trades.amount * stocks.price), 0) as total')
             ->value('total');
 
