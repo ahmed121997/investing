@@ -4,6 +4,7 @@ namespace App\Filament\Resources\WalletLogs;
 
 use App\Filament\Resources\WalletLogs\Pages\ListWalletLogs;
 use App\Filament\Resources\WalletLogs\Tables\WalletLogsTable;
+use App\Models\User;
 use App\Models\WalletLog;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -44,7 +45,12 @@ class WalletLogResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->whereHas('wallet', fn (Builder $query): Builder => $query->where('user_id', Auth::id()));
+        $isAdmin = User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+
+        return parent::getEloquentQuery()
+            ->when(! $isAdmin,
+                fn (Builder $query): Builder => $query->whereHas('wallet', fn (Builder $walletQuery): Builder => $walletQuery->where('user_id', Auth::id())),
+            );
     }
 
     public static function getPages(): array

@@ -6,6 +6,7 @@ use App\Filament\Resources\Deposits\Pages\ListDeposits;
 use App\Filament\Resources\Deposits\Schemas\DepositForm;
 use App\Filament\Resources\Deposits\Tables\DepositsTable;
 use App\Models\Deposit;
+use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -46,7 +47,10 @@ class DepositResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::id());
+        $isAdmin = User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+
+        return parent::getEloquentQuery()
+            ->when(! $isAdmin, fn (Builder $query): Builder => $query->where('user_id', Auth::id()));
     }
 
     public static function table(Table $table): Table

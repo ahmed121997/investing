@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Stocks\RelationManagers;
 
+use App\Models\User;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -37,7 +38,11 @@ class TradesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('trades.user_id', Auth::id()))
+            ->modifyQueryUsing(function (Builder $query): Builder {
+                $isAdmin = User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+
+                return $query->when(! $isAdmin, fn (Builder $query): Builder => $query->where('trades.user_id', Auth::id()));
+            })
             ->columns([
                 TextColumn::make('created_at')
                     ->label(__('app.created'))

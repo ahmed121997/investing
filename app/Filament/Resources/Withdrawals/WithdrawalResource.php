@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Withdrawals;
 use App\Filament\Resources\Withdrawals\Pages\ListWithdrawals;
 use App\Filament\Resources\Withdrawals\Schemas\WithdrawalForm;
 use App\Filament\Resources\Withdrawals\Tables\WithdrawalsTable;
+use App\Models\User;
 use App\Models\Withdrawal;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -46,7 +47,10 @@ class WithdrawalResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::id());
+        $isAdmin = User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+
+        return parent::getEloquentQuery()
+            ->when(! $isAdmin, fn (Builder $query): Builder => $query->where('user_id', Auth::id()));
     }
 
     public static function table(Table $table): Table

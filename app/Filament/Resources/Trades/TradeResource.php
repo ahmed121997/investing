@@ -8,6 +8,7 @@ use App\Filament\Resources\Trades\RelationManagers\TradeTracksRelationManager;
 use App\Filament\Resources\Trades\Schemas\TradeForm;
 use App\Filament\Resources\Trades\Tables\TradesTable;
 use App\Models\Trade;
+use App\Models\User;
 use BackedEnum;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -51,7 +52,10 @@ class TradeResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', Auth::id());
+        $isAdmin = User::query()->whereKey(Auth::id())->where('role', 'admin')->exists();
+
+        return parent::getEloquentQuery()
+            ->when(! $isAdmin, fn (Builder $query): Builder => $query->where('user_id', Auth::id()));
     }
 
     public static function infolist(Schema $schema): Schema

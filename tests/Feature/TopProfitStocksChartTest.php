@@ -6,6 +6,7 @@ use App\Filament\Widgets\TopProfitStocksChart;
 use App\Models\Stock;
 use App\Models\Trade;
 use App\Models\TradeTrack;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,6 +16,9 @@ class TopProfitStocksChartTest extends TestCase
 
     public function test_it_aggregates_profit_per_stock_across_all_open_trades(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $stockA = Stock::create([
             'name' => 'Alpha',
             'code' => 'A',
@@ -68,7 +72,7 @@ class TopProfitStocksChartTest extends TestCase
             'type' => 'profit',
         ]);
 
-        $widget = new TopProfitStocksChart();
+        $widget = new TopProfitStocksChart;
         $data = $widget->getTopProfitStocksData();
 
         $this->assertSame(['A', 'B'], $data['labels']);

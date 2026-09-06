@@ -8,6 +8,8 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -18,7 +20,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->is_active !== false;
     }
 
     /**
@@ -30,6 +32,8 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
     ];
 
     /**
@@ -52,7 +56,39 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (User $user): void {
+            if (! $user->exists || ! $user->isDirty(['role', 'is_active'])) {
+                return;
+            }
+
+            if ($user->isCurrentUser() && ! $user->is_active) {
+                throw ValidationException::withMessages([
+                    'is_active' => ['You cannot deactivate your own account.'],
+                ]);
+            }
+
+            if ($user->getOriginal('role') === 'admin'
+                && ($user->role !== 'admin' || ! $user->is_active)
+                && static::query()->where('role', 'admin')->where('is_active', true)->count() <= 1) {
+                throw ValidationException::withMessages([
+                    'role' => ['The last active administrator cannot be removed or deactivated.'],
+                ]);
+            }
+        });
+
+        static::deleting(function (User $user): void {
+            if ($user->isAdmin() && static::query()->where('role', 'admin')->where('is_active', true)->count() <= 1) {
+                throw ValidationException::withMessages([
+                    'role' => ['The last active administrator cannot be deleted.'],
+                ]);
+            }
+        });
     }
 
     public function deposits()
@@ -73,6 +109,16 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCurrentUser(): bool
+    {
+        return (int) $this->id === (int) Auth::id();
     }
 
     public function getProfileImageUrl(): ?string
