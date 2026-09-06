@@ -59,9 +59,12 @@ class WalletLogsTable
                 TextColumn::make('cash_before')
                     ->label(__('app.dashboard.total_cash'))
                     ->formatStateUsing(function ($state, $record): string {
+                        $direction = app()->getLocale() === 'ar' ? '←' : '→';
+
                         return sprintf(
-                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
+                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">%s</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
                             number_format((float) $state, 2),
+                            $direction,
                             number_format((float) $record->cash_after, 2),
                         );
                     })
@@ -74,9 +77,12 @@ class WalletLogsTable
                             return '<span class="text-gray-400 dark:text-gray-500">—</span>';
                         }
 
+                        $direction = app()->getLocale() === 'ar' ? '←' : '→';
+
                         return sprintf(
-                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">→</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
+                            '<div class="flex items-center gap-1.5 whitespace-nowrap"><span class="inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 dark:bg-white/10 dark:text-gray-300" style="min-width: 80px;">%s</span><span class="text-primary-500">%s</span><span class="inline-flex items-center justify-center rounded-md bg-primary-50 px-2 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-700/10 dark:bg-primary-500/10 dark:text-primary-400" style="min-width: 80px;">%s</span></div>',
                             number_format((float) $state, 2),
+                            $direction,
                             number_format((float) $record->save_cloud_after, 2),
                         );
                     })
@@ -108,5 +114,20 @@ class WalletLogsTable
                         'save_cloud_to_cash' => __('app.save_cloud_to_cash'),
                     ]),
             ]);
+            // ->recordActions([
+            //     Action::make('undo')
+            //         ->label(__('app.undo'))
+            //         ->icon('heroicon-o-arrow-uturn-left')
+            //         ->color('danger')
+            //         ->requiresConfirmation()
+            //         ->action(function (WalletLog $record): void {
+            //             app(WalletLogUndoService::class)->undo($record);
+
+            //             Notification::make()
+            //                 ->title(__('app.wallet_log_undo_completed'))
+            //                 ->success()
+            //                 ->send();
+            //         }),
+            // ]);
     }
 }
