@@ -16,7 +16,16 @@ class WalletLogsTable
             ->columns([
                 TextColumn::make('created_at')
                     ->label(__('app.date'))
-                    ->dateTime(format: 'Y-m-d h:iA')
+                    ->formatStateUsing(function ($state, $record): string {
+                        $type = $record->transaction_type ? __('app.' . $record->transaction_type) : '-';
+
+                        return sprintf(
+                            '<div class="flex flex-col items-center gap-1"><span>%s</span><span class="inline-flex items-center rounded-md bg-warning-50 px-2 py-0.5 text-xs font-medium text-warning-700 ring-1 ring-inset ring-warning-600/20 dark:bg-warning-500/10 dark:text-warning-400">%s</span></div>',
+                            e($state->translatedFormat('d-m-Y h:ia')),
+                            e($type),
+                        );
+                    })
+                    ->html()
                     ->sortable()
                     ->alignment(Alignment::Center),
                 TextColumn::make('action')
@@ -29,11 +38,6 @@ class WalletLogsTable
                         'deleted' => 'danger',
                         'transferred' => 'info',
                     })
-                    ->alignment(Alignment::Center),
-                TextColumn::make('transaction_type')
-                    ->label(__('app.type'))
-                    ->badge()
-                    ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-')
                     ->alignment(Alignment::Center),
                 TextColumn::make('amount')
                     ->label(__('app.amount').' / '.__('app.cash_change'))
