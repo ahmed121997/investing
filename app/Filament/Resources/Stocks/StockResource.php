@@ -75,6 +75,74 @@ class StockResource extends Resource
                             ->label(__('app.updated'))
                             ->dateTime('l, M d, Y h:i a'),
                     ]),
+                Section::make(__('app.price_increase'))
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->iconColor('success')
+                    ->columns(4)
+                    ->schema([
+                        TextEntry::make('price_up_5')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 1.05)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_up_badge', ['percentage' => 5]) . ' ')
+                            ->badge()
+                            ->color('success'),
+                        TextEntry::make('price_up_10')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 1.10)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_up_badge', ['percentage' => 10]) . ' ')
+                            ->badge()
+                            ->color('success'),
+                        TextEntry::make('price_up_15')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 1.15)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_up_badge', ['percentage' => 15]) . ' ')
+                            ->badge()
+                            ->color('success'),
+                        TextEntry::make('price_up_20')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 1.20)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_up_badge', ['percentage' => 20]) . ' ')
+                            ->badge()
+                            ->color('success'),
+                    ]),
+                Section::make(__('app.price_decrease'))
+                    ->icon('heroicon-o-arrow-trending-down')
+                    ->iconColor('danger')
+                    ->columns(4)
+                    ->schema([
+                        TextEntry::make('price_down_5')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 0.95)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_down_badge', ['percentage' => 5]) . ' ')
+                            ->badge()
+                            ->color('danger'),
+                        TextEntry::make('price_down_10')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 0.90)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_down_badge', ['percentage' => 10]) . ' ')
+                            ->badge()
+                            ->color('danger'),
+                        TextEntry::make('price_down_15')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 0.85)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_down_badge', ['percentage' => 15]) . ' ')
+                            ->badge()
+                            ->color('danger'),
+                        TextEntry::make('price_down_20')
+                            ->label(__('app.price'))
+                            ->state(fn (Stock $record): float => (float) $record->getRawOriginal('price') * 0.80)
+                            ->numeric(decimalPlaces: fn (TextEntry $component): int => (float) $component->getState() < 1 ? 3 : 2, locale: 'en')
+                            ->prefix(__('app.price_down_badge', ['percentage' => 20]) . ' ')
+                            ->badge()
+                            ->color('danger'),
+                    ]),
             ]);
     }
 

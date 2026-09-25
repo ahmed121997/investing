@@ -88,6 +88,15 @@ class TradeResource extends Resource
                                 $state < 0 => 'danger',
                                 default => 'primary',
                             }),
+                        TextEntry::make('profit_percentage')
+                            ->label(__('app.profit_percentage'))
+                            ->numeric(decimalPlaces: 2)
+                            ->suffix('%')
+                            ->color(fn (mixed $state): string => match (true) {
+                                $state > 0 => 'success',
+                                $state < 0 => 'danger',
+                                default => 'primary',
+                            }),
                         TextEntry::make('status')
                             ->label(__('app.status'))
                             ->formatStateUsing(fn (?string $state): string => $state ? __('app.'.$state) : '-')
