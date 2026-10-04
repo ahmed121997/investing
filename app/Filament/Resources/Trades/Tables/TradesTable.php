@@ -12,6 +12,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
@@ -122,6 +123,10 @@ class TradesTable
                     ->modalHeading(fn (Trade $record): string => __('app.add_track_for', ['code' => $record->stock?->code]))
                     ->icon('heroicon-o-plus')
                     ->color('success')
+                    ->extraModalFooterActions(fn (Action $action): array => [
+                        $action->makeModalSubmitAction('addAnother', ['another' => true])
+                            ->label(__('app.add_another_track')),
+                    ])
                     ->form([
                         TextInput::make('amount')
                             ->label(__('app.amount'))
@@ -140,9 +145,10 @@ class TradesTable
                                 'buy' => __('app.buy'),
                                 'sell' => __('app.sell'),
                                 'profit' => __('app.profit'),
+                                'commission_refund' => __('app.commission_refund'),
                             ]),
                     ])
-                    ->action(function ($record, array $data) {
+                    ->action(function ($record, array $data, array $arguments, Schema $schema, Action $action) {
                         try {
                             $record->tradeTracks()->create($data);
 
@@ -150,6 +156,11 @@ class TradesTable
                                 ->title(__('app.trade_track_created_success'))
                                 ->success()
                                 ->send();
+
+                            if ($arguments['another'] ?? false) {
+                                $schema->fill();
+                                $action->halt();
+                            }
                         } catch (ValidationException $exception) {
                             $message = collect($exception->errors())->flatten(1)->first() ?? __('app.invalid_trade_track_type');
 

@@ -19,7 +19,7 @@ class TradeTrack extends Model
     protected $casts = [
         'amount' => 'double',
         'date' => 'datetime',
-        'type' => 'string:in:buy,sell,profit',
+        'type' => 'string:in:buy,sell,profit,commission_refund',
     ];
 
     public function trade(): BelongsTo

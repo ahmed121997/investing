@@ -71,6 +71,7 @@ class TradeTracksRelationManager extends RelationManager
                         'buy' => __('app.buy'),
                         'sell' => __('app.sell'),
                         'profit' => __('app.profit'),
+                        'commission_refund' => __('app.commission_refund'),
                     ]),
             ]);
     }

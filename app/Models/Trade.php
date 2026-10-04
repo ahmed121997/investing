@@ -77,7 +77,7 @@ class Trade extends Model
     {
         $tracks = $this->tradeTracks()->get();
         $totalBuyAmount = $tracks->where('type', 'buy')->sum('amount');
-        $totalSellAmount = $tracks->whereIn('type', ['sell', 'profit'])->sum('amount');
+        $totalSellAmount = $tracks->whereIn('type', ['sell', 'profit', 'commission_refund'])->sum('amount');
 
         if ($totalBuyAmount == 0) {
             return null;
