@@ -43,7 +43,7 @@ return [
     'wallet_cash' => 'نقدية المحافظ',
     'total_trades' => 'إجمالي التداولات',
     'total_profit_loss' => 'إجمالي الربح والخسارة',
-    'amount' => 'المبلغ',
+    'amount' => 'الكمية',
     'description' => 'الوصف',
     'deposit_date' => 'تاريخ الإيداع',
     'withdrawal_date' => 'تاريخ السحب',
